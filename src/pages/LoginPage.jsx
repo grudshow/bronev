@@ -4,30 +4,35 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { AuthContext } from '../context'
-import { Navigate } from 'react-router-dom'
+import { Routes, Navigate, Route } from 'react-router-dom'
 
 const LoginPage = () => {
 	const { isAuth, setIsAuth } = useContext(AuthContext)
-	const [token, setToken] = useState('')
 	const [address, setAddress] = useState(null)
+	const [token, setToken] = useState(null)
 
 	const openModalWindow = () => {
-		let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=500,height=600,left=center,top=center`
-		let modal = window.open(process.env.REACT_APP_API_LOGIN, 'auth', params)
-		setAddress(modal)
-		console.log(modal.location.href)
+		setAddress(
+			window.open(process.env.REACT_APP_API_LOGIN, 'auth', `width=500,height=600,left=50%,top=50%`),
+		)
 	}
 
-	useEffect(() => {
-		// const searchParams = new URLSearchParams(address.location.href)
-		// console.log(searchParams.get('token'))
-		if (address) {
-			// console.log(window.location.href)
-			// console.log(address.location.href)
-			// console.log('address.name >', address.name)
-			// console.log('address.location >', address.location)
-		}
-	}, [address])
+	// useEffect(() => {
+	// 	if (address) {
+	// 		console.log(address)
+	// 		// console.log(address.location.href)
+	// 	}
+	// 	const searchParams = new URLSearchParams(address.location.search)
+	// 	setToken(searchParams.get('token'))
+	// 	localStorage.setItem('token', token)
+	// }, [address])
+
+	// useEffect(() => {
+	// 	if (localStorage.getItem('token') == token) {
+	// 		address.close()
+	// 		setIsAuth(true)
+	// 	}
+	// }, [token])
 
 	return (
 		<Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>

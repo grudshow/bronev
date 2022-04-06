@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Breadcrumbs from '@mui/material/Breadcrumbs'
-import { Box, Stack, Link, Typography } from '@mui/material'
+import { Box, Stack, Typography, Breadcrumbs } from '@mui/material'
+import { Link, useLocation } from 'react-router-dom'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
 function handleClick(event) {
@@ -8,29 +8,16 @@ function handleClick(event) {
 }
 
 export default function BreadCrumbs() {
-	const breadcrumbs = [
-		<Link underline='hover' key='1' color='inherit' href='/' onClick={handleClick}>
-			MUI
-		</Link>,
-		<Link
-			underline='hover'
-			key='2'
-			color='inherit'
-			href='/getting-started/installation/'
-			onClick={handleClick}
-		>
-			Core
-		</Link>,
-		<Typography key='3' color='text.primary'>
-			Breadcrumb
-		</Typography>,
-	]
+	const location = useLocation()
+	const pathnames = location.pathname.split('/').filter(x => x)
 
 	return (
 		<Box mb={2}>
 			<Stack spacing={2}>
 				<Breadcrumbs separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
-					{breadcrumbs}
+					<Link onClick={handleClick} to='/drivers'>
+						Список водителей
+					</Link>
 				</Breadcrumbs>
 			</Stack>
 		</Box>

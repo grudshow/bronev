@@ -9,7 +9,7 @@ const Footer = () => {
 					alignItems: 'center',
 				}}
 			>
-				<Typography color='initial'>© 2019 Bronew</Typography>
+				<Typography color='initial'>© 2022 Bronew</Typography>
 			</BottomNavigation>
 		</Paper>
 	)

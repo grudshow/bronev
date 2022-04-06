@@ -3,9 +3,8 @@ import { privateRoutes, publicRoutes } from './router/routes'
 import { AuthContext } from './context'
 import { useState } from 'react'
 import './styles/style.sass'
-
 const App = () => {
-	const [isAuth, setIsAuth] = useState(false)
+	const [isAuth, setIsAuth] = useState(true)
 	let location = useLocation()
 	return (
 		<AuthContext.Provider
