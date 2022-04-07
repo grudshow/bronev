@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Toolbar, Typography, IconButton, Box, Button } from '@mui/material'
 import MuiAppBar from '@mui/material/AppBar'
 import { styled, useTheme } from '@mui/material/styles'
 import { drawerWidth } from '../constants/constants'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Link } from 'react-router-dom'
-import { privateRoutes } from '../router/routes'
+import { OpenSideBarContext } from '../context'
+
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: prop => prop !== 'open',
 })(({ theme, open }) => ({
@@ -24,8 +25,13 @@ const AppBar = styled(MuiAppBar, {
 	}),
 }))
 
-const Header = ({ open, setOpen }) => {
-	const pages = ['Продажи', 'Маршруты', 'Отчеты']
+const Header = () => {
+	const pages = [
+		{ name: 'Продажи', to: '/sale' },
+		{ name: 'Маршруты', to: '/routes' },
+		{ name: 'Отчеты', to: '/report' },
+	]
+	const { open, setOpen } = useContext(OpenSideBarContext)
 
 	const handleDrawerOpen = () => {
 		setOpen(true)
@@ -47,8 +53,8 @@ const Header = ({ open, setOpen }) => {
 				</IconButton>
 				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 					{pages.map(page => (
-						<Link key={page} to=''>
-							<Button sx={{ color: 'white', display: 'block' }}>{page}</Button>
+						<Link key={page.name} to={page.to}>
+							<Button sx={{ color: 'white', display: 'block' }}>{page.name}</Button>
 						</Link>
 					))}
 				</Box>

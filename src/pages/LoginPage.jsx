@@ -4,35 +4,38 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { AuthContext } from '../context'
-import { Routes, Navigate, Route } from 'react-router-dom'
+import { Routes, Navigate, Route, useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
 	const { isAuth, setIsAuth } = useContext(AuthContext)
 	const [address, setAddress] = useState(null)
 	const [token, setToken] = useState(null)
+	const [openModal, setOpenModal] = useState(false)
 
 	const openModalWindow = () => {
 		setAddress(
 			window.open(process.env.REACT_APP_API_LOGIN, 'auth', `width=500,height=600,left=50%,top=50%`),
 		)
+		setOpenModal(true)
 	}
 
-	// useEffect(() => {
-	// 	if (address) {
-	// 		console.log(address)
-	// 		// console.log(address.location.href)
-	// 	}
-	// 	const searchParams = new URLSearchParams(address.location.search)
-	// 	setToken(searchParams.get('token'))
-	// 	localStorage.setItem('token', token)
-	// }, [address])
+	useEffect(() => {
+		if (openModal) {
+			const intervalID = setInterval(() => {
+				if (address && address?.location?.href !== 'about:blank') {
+					const searchParams = new URLSearchParams(address.location.search)
+					setToken(searchParams.get('token'))
+					localStorage.setItem('token', searchParams.get('token'))
+					address.close()
+					setIsAuth(true)
+				}
+			}, 500)
 
-	// useEffect(() => {
-	// 	if (localStorage.getItem('token') == token) {
-	// 		address.close()
-	// 		setIsAuth(true)
-	// 	}
-	// }, [token])
+			return () => {
+				clearInterval(intervalID)
+			}
+		}
+	}, [openModal])
 
 	return (
 		<Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>

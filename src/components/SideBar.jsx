@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useContext } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
 import {
 	Drawer as MuiDrawer,
@@ -18,6 +18,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { Link } from 'react-router-dom'
 import { drawerWidth } from '../constants/constants'
+import { OpenSideBarContext } from '../context'
 
 const openedMixin = theme => ({
 	width: drawerWidth,
@@ -65,8 +66,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
 	}),
 )
 
-const SideBar = ({ open, setOpen }) => {
+const SideBar = () => {
 	const theme = useTheme()
+	const { open, setOpen } = useContext(OpenSideBarContext)
 
 	const handleDrawerClose = () => {
 		setOpen(false)
@@ -87,7 +89,7 @@ const SideBar = ({ open, setOpen }) => {
 			elements: [{ name: 'Просмотр', breadcrumbs: 'Список заказов', path: '/directions' }],
 		},
 	]
-	
+
 	return (
 		<Drawer variant='permanent' open={open}>
 			<DrawerHeader>
