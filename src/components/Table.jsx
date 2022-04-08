@@ -15,8 +15,6 @@ import Paper from '@mui/material/Paper'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Switch from '@mui/material/Switch'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { visuallyHidden } from '@mui/utils'
@@ -25,39 +23,11 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
-import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
 import Loading from './Loading'
 import instance from '../api/api'
-
-function descendingComparator(a, b, orderBy) {
-	if (b[orderBy] < a[orderBy]) {
-		return -1
-	}
-	if (b[orderBy] > a[orderBy]) {
-		return 1
-	}
-	return 0
-}
-
-function getComparator(order, orderBy) {
-	return order === 'desc'
-		? (a, b) => descendingComparator(a, b, orderBy)
-		: (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index])
-	stabilizedThis.sort((a, b) => {
-		const order = comparator(a[0], b[0])
-		if (order !== 0) {
-			return order
-		}
-		return a[1] - b[1]
-	})
-	return stabilizedThis.map(el => el[0])
-}
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 
 const headCells = [
 	{
@@ -107,17 +77,7 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead>
 			<TableRow>
-				<TableCell padding='checkbox'>
-					<Checkbox
-						color='primary'
-						indeterminate={numSelected > 0 && numSelected < rowCount}
-						checked={rowCount > 0 && numSelected === rowCount}
-						onChange={onSelectAllClick}
-						inputProps={{
-							'aria-label': 'select all desserts',
-						}}
-					/>
-				</TableCell>
+				<TableCell></TableCell>
 				{headCells.map(headCell => (
 					<TableCell
 						key={headCell.id}
@@ -190,13 +150,18 @@ export default function EnhancedTable() {
 	const [orderBy, setOrderBy] = useState('lastname')
 	const [selected, setSelected] = useState([])
 	const [page, setPage] = useState(1)
-	const [dense, setDense] = useState(false)
 	const [rowsPerPage, setRowsPerPage] = useState(30)
 
-	const [drivers, setDrivers] = useState(null)
 	const [data, setData] = useState(null)
 	const [loading, setLoading] = useState(true)
 	const [itemsQty, setItemsQty] = useState(0)
+
+	// Navigate
+	const [searchQuery, setSearchQuery] = useState(null)
+	let navigate = useNavigate()
+	let location = useLocation()
+	console.log(location)
+	const [searchParams] = useSearchParams()
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc'
@@ -255,12 +220,13 @@ export default function EnhancedTable() {
 	useEffect(() => {
 		if (page <= 0) return
 
+		setLoading(true)
+
 		instance.get(`dictionary/drivers?page=${page}`).then(res => {
 			setData(res.data['hydra:member'])
 			setItemsQty(res.data['hydra:totalItems'])
-			setLoading(false)
 		})
-	}, [page])
+	}, [page, rowsPerPage])
 
 	const inputs = [
 		{ name: 'lastname', label: 'Поиск по Фамилии' },
@@ -268,9 +234,11 @@ export default function EnhancedTable() {
 		{ name: 'patronymic', label: 'Поиск по Отчеству' },
 	]
 
-	const [searchQuery, setSearchQuery] = useState('')
-
-	useEffect(() => {}, [searchQuery])
+	useEffect(() => {
+		if (searchParams) {
+			searchParams.get('page')
+		}
+	}, [searchParams])
 
 	return !data?.length ? (
 		<Loading />
@@ -287,8 +255,8 @@ export default function EnhancedTable() {
 			>
 				{inputs.map(({ name, label }) => (
 					<TextField
-						onChange={e => setSearchQuery(e.target.value)}
-						value={searchQuery}
+						// onChange={e => setSearchQuery(e.target.value)}
+						// value={searchQuery}
 						key={name}
 						id={name}
 						label={label}
@@ -321,11 +289,7 @@ export default function EnhancedTable() {
 				<Paper sx={{ width: '100%', mb: 2 }}>
 					<EnhancedTableToolbar numSelected={selected.length} />
 					<TableContainer>
-						<Table
-							sx={{ minWidth: 750 }}
-							aria-labelledby='tableTitle'
-							size={dense ? 'small' : 'medium'}
-						>
+						<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
 							<EnhancedTableHead
 								numSelected={selected.length}
 								order={order}
@@ -369,11 +333,7 @@ export default function EnhancedTable() {
 									)
 								})}
 								{emptyRows > 0 && (
-									<TableRow
-										style={{
-											height: (dense ? 33 : 53) * emptyRows,
-										}}
-									>
+									<TableRow>
 										<TableCell colSpan={6} />
 									</TableRow>
 								)}
