@@ -4,12 +4,12 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { AuthContext } from '../context'
-import { Routes, Navigate, Route, useNavigate } from 'react-router-dom'
+import { Routes, Navigate, Route, useNavigate, useLocation } from 'react-router-dom'
 
 const LoginPage = () => {
 	const { isAuth, setIsAuth } = useContext(AuthContext)
 	const [address, setAddress] = useState(null)
-	const [token, setToken] = useState(null)
+	const [token, setToken] = useState('')
 	const [openModal, setOpenModal] = useState(false)
 
 	const openModalWindow = () => {

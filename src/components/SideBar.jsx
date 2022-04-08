@@ -107,6 +107,7 @@ const SideBar = () => {
 						>
 							<ListItemButton
 								key={item.title}
+								onClick={() => (theme.direction !== 'rtl' ? setOpen(true) : '')}
 								sx={{
 									minHeight: 48,
 									justifyContent: open ? 'initial' : 'center',

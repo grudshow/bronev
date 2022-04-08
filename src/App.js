@@ -14,11 +14,13 @@ import RoutesPage from './pages/RoutesPage'
 const App = () => {
 	const [isAuth, setIsAuth] = useState(false)
 	let location = useLocation()
+	let navigate = useNavigate()
 
 	useEffect(() => {
-		if (localStorage.getItem('token')) {
+		if (!!localStorage.getItem('token')) {
 			setIsAuth(true)
 			console.log('АВТОРИЗИРОВАН!!', isAuth)
+			return navigate('/')
 		}
 	}, [isAuth])
 
@@ -29,24 +31,25 @@ const App = () => {
 				setIsAuth,
 			}}
 		>
-			{isAuth ? (
+			{!isAuth ? (
+				<Routes>
+					<Route path='/login' element={<LoginPage />}></Route>
+					<Route path={location.pathname} element={<Navigate to='/login' replace />}></Route>
+				</Routes>
+			) : (
 				<Routes>
 					<Route path='/' element={<Layout />}>
-						<Route path='drivers' element={<DriversPage />}></Route>
+						<Route path='/drivers' element={<DriversPage />}></Route>
 						<Route path='/order' element={<OrderPage />}></Route>
 						<Route path='/report' element={<ReportPage />}></Route>
 						<Route path='/sale' element={<SalePage />}></Route>
 						<Route path='/directions' element={<DirectoinsPage />}></Route>
 						<Route path='/routes' element={<RoutesPage />}></Route>
 					</Route>
-					<Route index element={<Navigate to='/login' replace />}></Route>
-				</Routes>
-			) : (
-				<Routes>
-					<Route path='/login' element={<LoginPage />}></Route>
-					<Route path={location.pathname} element={<Navigate to='/login' replace />}></Route>
+					<Route index element={<Navigate to='/drivers' replace />}></Route>
 				</Routes>
 			)}
+			{/* <Route path='/login' element={<LoginPage />}></Route> */}
 		</AuthContext.Provider>
 	)
 }

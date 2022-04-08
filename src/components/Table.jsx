@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { alpha } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -21,32 +20,16 @@ import Switch from '@mui/material/Switch'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { visuallyHidden } from '@mui/utils'
+import TextField from '@mui/material/TextField'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import InputLabel from '@mui/material/InputLabel'
+import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 
-function createData(name, calories, fat, carbs, protein) {
-	return {
-		name,
-		calories,
-		fat,
-		carbs,
-		protein,
-	}
-}
-
-const rows = [
-	createData('Cupcake', 305, 3.7, 67, 4.3),
-	createData('Donut', 452, 25.0, 51, 4.9),
-	createData('Eclair', 262, 16.0, 24, 6.0),
-	createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-	createData('Gingerbread', 356, 16.0, 49, 3.9),
-	createData('Honeycomb', 408, 3.2, 87, 6.5),
-	createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-	createData('Jelly Bean', 375, 0.0, 94, 0.0),
-	createData('KitKat', 518, 26.0, 65, 7.0),
-	createData('Lollipop', 392, 0.2, 98, 0.0),
-	createData('Marshmallow', 318, 0, 81, 2.0),
-	createData('Nougat', 360, 19.0, 9, 37.0),
-	createData('Oreo', 437, 18.0, 63, 4.0),
-]
+import Loading from './Loading'
+import instance from '../api/api'
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -78,34 +61,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
 	{
-		id: 'name',
+		id: 'lastname',
 		numeric: false,
 		disablePadding: true,
-		label: 'Dessert (100g serving)',
+		label: 'Фамилия',
 	},
 	{
-		id: 'calories',
-		numeric: true,
+		id: 'firstname',
+		numeric: false,
 		disablePadding: false,
-		label: 'Calories',
+		label: 'Имя',
 	},
 	{
-		id: 'fat',
-		numeric: true,
+		id: 'patronymic',
+		numeric: false,
 		disablePadding: false,
-		label: 'Fat (g)',
+		label: 'Отчество',
 	},
 	{
-		id: 'carbs',
-		numeric: true,
+		id: 'sex',
+		numeric: false,
 		disablePadding: false,
-		label: 'Carbs (g)',
+		label: 'Пол',
 	},
 	{
-		id: 'protein',
-		numeric: true,
+		id: 'birthDate',
+		numeric: false,
 		disablePadding: false,
-		label: 'Protein (g)',
+		label: 'Дата рождения',
+	},
+	{
+		id: 'active',
+		numeric: false,
+		disablePadding: false,
+		label: 'Активность',
 	},
 ]
 
@@ -197,42 +186,17 @@ const EnhancedTableToolbar = props => {
 }
 
 export default function EnhancedTable() {
-	const [order, setOrder] = React.useState('asc')
-	const [orderBy, setOrderBy] = React.useState('calories')
-	const [selected, setSelected] = React.useState([])
-	const [page, setPage] = React.useState(1)
-	const [dense, setDense] = React.useState(false)
-	const [rowsPerPage, setRowsPerPage] = React.useState(5)
+	const [order, setOrder] = useState('asc')
+	const [orderBy, setOrderBy] = useState('lastname')
+	const [selected, setSelected] = useState([])
+	const [page, setPage] = useState(1)
+	const [dense, setDense] = useState(false)
+	const [rowsPerPage, setRowsPerPage] = useState(30)
 
 	const [drivers, setDrivers] = useState(null)
 	const [data, setData] = useState(null)
-	const [pageQty, setPageQty] = useState(0)
 	const [loading, setLoading] = useState(true)
-
-	useEffect(async () => {
-		await axios
-			.get(`${process.env.REACT_APP_API_DIRECTORY}dictionary/drivers`, {
-				headers: {
-					'Content-Type': 'application/json; charset=utf-8',
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-					Accept: 'application/ld+json',
-				},
-			})
-			.then(res => {
-				console.log(res)
-				// setDrivers(res)
-				// setPageQty(Math.ceil(res.data['hydra:totalItems'] / res.data['hydra:member'].length))
-			})
-		// if (!localStorage.getItem('x-jwt-token'))
-		// 	localStorage.setItem('x-jwt-token', drivers.headers['x-jwt-token'])
-	}, [])
-
-	// useEffect(() => {
-	// 	if (drivers) {
-	// 		setLoading(false)
-	// 		setData(drivers.data['hydra:member'])
-	// 	}
-	// }, [drivers])
+	const [itemsQty, setItemsQty] = useState(0)
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc'
@@ -242,7 +206,7 @@ export default function EnhancedTable() {
 
 	const handleSelectAllClick = event => {
 		if (event.target.checked) {
-			const newSelecteds = rows.map(n => n.name)
+			const newSelecteds = data.map(n => n.lastname)
 			setSelected(newSelecteds)
 			return
 		}
@@ -278,46 +242,110 @@ export default function EnhancedTable() {
 		setPage(0)
 	}
 
-	const handleChangeDense = event => {
-		setDense(event.target.checked)
-	}
-
 	const isSelected = name => selected.indexOf(name) !== -1
 
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - itemsQty) : 0
 
-	return (
-		<Box sx={{ width: '100%' }}>
-			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar numSelected={selected.length} />
-				<TableContainer>
-					<Table
-						sx={{ minWidth: 750 }}
-						aria-labelledby='tableTitle'
-						size={dense ? 'small' : 'medium'}
+	const [sort, setSort] = useState('')
+
+	const handleChange = event => {
+		setSort(event.target.value)
+	}
+
+	useEffect(() => {
+		if (page <= 0) return
+
+		instance.get(`dictionary/drivers?page=${page}`).then(res => {
+			setData(res.data['hydra:member'])
+			setItemsQty(res.data['hydra:totalItems'])
+			setLoading(false)
+		})
+	}, [page])
+
+	const inputs = [
+		{ name: 'lastname', label: 'Поиск по Фамилии' },
+		{ name: 'firstname', label: 'Поиск по Имени' },
+		{ name: 'patronymic', label: 'Поиск по Отчеству' },
+	]
+
+	const [searchQuery, setSearchQuery] = useState('')
+
+	useEffect(() => {}, [searchQuery])
+
+	return !data?.length ? (
+		<Loading />
+	) : (
+		<>
+			<Box
+				mb={2}
+				spacing={2}
+				sx={{
+					display: 'grid',
+					gridTemplateColumns: 'repeat(auto-fit,minmax(250px,1fr))',
+					gap: '20px',
+				}}
+			>
+				{inputs.map(({ name, label }) => (
+					<TextField
+						onChange={e => setSearchQuery(e.target.value)}
+						value={searchQuery}
+						key={name}
+						id={name}
+						label={label}
+						variant='outlined'
+					/>
+				))}
+				<FormControl>
+					<InputLabel id='demo-simple-select-label'>Активные</InputLabel>
+					<Select
+						labelId='demo-simple-select-label'
+						id='demo-simple-select'
+						value={sort}
+						label='Sort'
+						onChange={handleChange}
 					>
-						<EnhancedTableHead
-							numSelected={selected.length}
-							order={order}
-							orderBy={orderBy}
-							onSelectAllClick={handleSelectAllClick}
-							onRequestSort={handleRequestSort}
-							rowCount={rows.length}
-						/>
-						<TableBody>
-							{stableSort(rows, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.name)
+						<MenuItem value={10}>Активные</MenuItem>
+						<MenuItem value={20}>Все</MenuItem>
+					</Select>
+				</FormControl>
+			</Box>
+			<Box mb={2} sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
+				<Button variant='outlined' color='error'>
+					Сбросить
+				</Button>
+				<Button variant='contained' color='primary'>
+					Поиск
+				</Button>
+			</Box>
+			<Box sx={{ width: '100%' }}>
+				<Paper sx={{ width: '100%', mb: 2 }}>
+					<EnhancedTableToolbar numSelected={selected.length} />
+					<TableContainer>
+						<Table
+							sx={{ minWidth: 750 }}
+							aria-labelledby='tableTitle'
+							size={dense ? 'small' : 'medium'}
+						>
+							<EnhancedTableHead
+								numSelected={selected.length}
+								order={order}
+								orderBy={orderBy}
+								onSelectAllClick={handleSelectAllClick}
+								onRequestSort={handleRequestSort}
+								rowCount={itemsQty}
+							/>
+							<TableBody>
+								{data?.map((row, index) => {
+									const isItemSelected = isSelected(row.lastname)
 									const labelId = `enhanced-table-checkbox-${index}`
 									return (
 										<TableRow
 											hover
-											onClick={event => handleClick(event, row.name)}
+											onClick={event => handleClick(event, row.lastname)}
 											role='checkbox'
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.name}
+											key={index}
 											selected={isItemSelected}
 										>
 											<TableCell padding='checkbox'>
@@ -330,41 +358,40 @@ export default function EnhancedTable() {
 												/>
 											</TableCell>
 											<TableCell component='th' id={labelId} scope='row' padding='none'>
-												{row.name}
+												{row.lastname}
 											</TableCell>
-											<TableCell align='right'>{row.calories}</TableCell>
-											<TableCell align='right'>{row.fat}</TableCell>
-											<TableCell align='right'>{row.carbs}</TableCell>
-											<TableCell align='right'>{row.protein}</TableCell>
+											<TableCell>{row.firstname}</TableCell>
+											<TableCell>{row.patronymic}</TableCell>
+											<TableCell>{row.sex ? <div>муж</div> : <div>жен</div>}</TableCell>
+											<TableCell>{row.birthDate}</TableCell>
+											<TableCell>{row.active ? <div>Да</div> : <div>Нет</div>}</TableCell>
 										</TableRow>
 									)
 								})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: (dense ? 33 : 53) * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<TablePagination
-					rowsPerPageOptions={[5, 10, 25]}
-					component='div'
-					count={rows.length}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
-			</Paper>
-			<FormControlLabel
-				control={<Switch checked={dense} onChange={handleChangeDense} />}
-				label='Dense padding'
-			/>
-		</Box>
+								{emptyRows > 0 && (
+									<TableRow
+										style={{
+											height: (dense ? 33 : 53) * emptyRows,
+										}}
+									>
+										<TableCell colSpan={6} />
+									</TableRow>
+								)}
+							</TableBody>
+						</Table>
+					</TableContainer>
+
+					<TablePagination
+						rowsPerPageOptions={[5, 10, 30]}
+						component='div'
+						count={itemsQty}
+						rowsPerPage={rowsPerPage}
+						page={page}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+					/>
+				</Paper>
+			</Box>
+		</>
 	)
 }
