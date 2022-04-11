@@ -24,333 +24,171 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import Button from '@mui/material/Button'
+import Pagination from '@mui/material/Pagination'
+import Stack from '@mui/material/Stack'
 
 import Loading from './Loading'
 import instance from '../api/api'
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import { onlyNotEmpty } from '../utils/utils'
 
 const headCells = [
 	{
 		id: 'lastname',
-		numeric: false,
-		disablePadding: true,
 		label: 'Фамилия',
 	},
 	{
 		id: 'firstname',
-		numeric: false,
-		disablePadding: false,
 		label: 'Имя',
 	},
 	{
 		id: 'patronymic',
-		numeric: false,
-		disablePadding: false,
 		label: 'Отчество',
 	},
 	{
 		id: 'sex',
-		numeric: false,
-		disablePadding: false,
 		label: 'Пол',
 	},
 	{
 		id: 'birthDate',
-		numeric: false,
-		disablePadding: false,
 		label: 'Дата рождения',
 	},
 	{
 		id: 'active',
-		numeric: false,
-		disablePadding: false,
 		label: 'Активность',
 	},
 ]
 
-function EnhancedTableHead(props) {
-	const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
-	const createSortHandler = property => event => {
-		onRequestSort(event, property)
-	}
-
-	return (
-		<TableHead>
-			<TableRow>
-				<TableCell></TableCell>
-				{headCells.map(headCell => (
-					<TableCell
-						key={headCell.id}
-						align={headCell.numeric ? 'right' : 'left'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
-						sortDirection={orderBy === headCell.id ? order : false}
-					>
-						<TableSortLabel
-							active={orderBy === headCell.id}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							onClick={createSortHandler(headCell.id)}
-						>
-							{headCell.label}
-							{orderBy === headCell.id ? (
-								<Box component='span' sx={visuallyHidden}>
-									{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-								</Box>
-							) : null}
-						</TableSortLabel>
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
-	)
-}
-
-const EnhancedTableToolbar = props => {
-	const { numSelected } = props
-
-	return (
-		<Toolbar
-			sx={{
-				pl: { sm: 2 },
-				pr: { xs: 1, sm: 1 },
-				...(numSelected > 0 && {
-					bgcolor: theme =>
-						alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-				}),
-			}}
-		>
-			{numSelected > 0 ? (
-				<Typography sx={{ flex: '1 1 100%' }} color='inherit' variant='subtitle1' component='div'>
-					{numSelected} selected
-				</Typography>
-			) : (
-				<Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
-					Nutrition
-				</Typography>
-			)}
-
-			{numSelected > 0 ? (
-				<Tooltip title='Delete'>
-					<IconButton>
-						<DeleteIcon />
-					</IconButton>
-				</Tooltip>
-			) : (
-				<Tooltip title='Filter list'>
-					<IconButton>
-						<FilterListIcon />
-					</IconButton>
-				</Tooltip>
-			)}
-		</Toolbar>
-	)
-}
-
 export default function EnhancedTable() {
-	const [order, setOrder] = useState('asc')
-	const [orderBy, setOrderBy] = useState('lastname')
-	const [selected, setSelected] = useState([])
 	const [page, setPage] = useState(1)
-	const [rowsPerPage, setRowsPerPage] = useState(30)
 
 	const [data, setData] = useState(null)
 	const [loading, setLoading] = useState(true)
-	const [itemsQty, setItemsQty] = useState(0)
-
-	// Navigate
-	const [searchQuery, setSearchQuery] = useState(null)
-	let navigate = useNavigate()
-	let location = useLocation()
-	console.log(location)
-	const [searchParams] = useSearchParams()
-
-	const handleRequestSort = (event, property) => {
-		const isAsc = orderBy === property && order === 'asc'
-		setOrder(isAsc ? 'desc' : 'asc')
-		setOrderBy(property)
+	const [pageQty, setPageQty] = useState(0)
+	const [searchParams, setSearchParams] = useSearchParams()
+	const [submit, setSubmit] = useState(false)
+	// const [lastname, setLastname] = useState('')
+	// const [firstname, setFirstname] = useState('')
+	// const [patronymic, setPatronymic] = useState('')
+	const initialState = {
+		firstname: '',
+		lastname: '',
+		patronymic: '',
 	}
 
-	const handleSelectAllClick = event => {
-		if (event.target.checked) {
-			const newSelecteds = data.map(n => n.lastname)
-			setSelected(newSelecteds)
-			return
-		}
-		setSelected([])
+	const [querySearch, setQuerySearch] = useState(initialState)
+	console.log(querySearch)
+	const handleSearch = e => {
+		const name = e.target.name
+		setQuerySearch({ ...querySearch, [name]: e.target.value })
 	}
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name)
-		let newSelected = []
-
-		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name)
-		} else if (selectedIndex === 0) {
-			newSelected = newSelected.concat(selected.slice(1))
-		} else if (selectedIndex === selected.length - 1) {
-			newSelected = newSelected.concat(selected.slice(0, -1))
-		} else if (selectedIndex > 0) {
-			newSelected = newSelected.concat(
-				selected.slice(0, selectedIndex),
-				selected.slice(selectedIndex + 1),
-			)
-		}
-
-		setSelected(newSelected)
-	}
-
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage)
-	}
-
-	const handleChangeRowsPerPage = event => {
-		setRowsPerPage(parseInt(event.target.value, 10))
-		setPage(0)
-	}
-
-	const isSelected = name => selected.indexOf(name) !== -1
-
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - itemsQty) : 0
-
-	const [sort, setSort] = useState('')
-
-	const handleChange = event => {
-		setSort(event.target.value)
+	const handleSubmit = e => {
+		setSubmit(!submit)
 	}
 
 	useEffect(() => {
-		if (page <= 0) return
+		let params = {
+			page,
+			...querySearch,
+		}
+		instance
+			.get(`dictionary/drivers`, {
+				params: onlyNotEmpty(params),
+			})
+			.then(res => {
+				setLoading(false)
+				setData(res.data['hydra:member'])
+				if (!pageQty > 0)
+					setPageQty(Math.ceil(res.data['hydra:totalItems'] / res.data['hydra:member'].length))
+			})
+	}, [page, submit])
 
-		setLoading(true)
-
-		instance.get(`dictionary/drivers?page=${page}`).then(res => {
-			setData(res.data['hydra:member'])
-			setItemsQty(res.data['hydra:totalItems'])
-		})
-	}, [page, rowsPerPage])
+	const handlePage = (event, value) => {
+		setPage(value)
+	}
 
 	const inputs = [
-		{ name: 'lastname', label: 'Поиск по Фамилии' },
 		{ name: 'firstname', label: 'Поиск по Имени' },
+		{ name: 'lastname', label: 'Поиск по Фамилии' },
 		{ name: 'patronymic', label: 'Поиск по Отчеству' },
 	]
-
-	useEffect(() => {
-		if (searchParams) {
-			searchParams.get('page')
-		}
-	}, [searchParams])
 
 	return !data?.length ? (
 		<Loading />
 	) : (
 		<>
-			<Box
-				mb={2}
-				spacing={2}
-				sx={{
-					display: 'grid',
-					gridTemplateColumns: 'repeat(auto-fit,minmax(250px,1fr))',
-					gap: '20px',
-				}}
-			>
-				{inputs.map(({ name, label }) => (
-					<TextField
-						// onChange={e => setSearchQuery(e.target.value)}
-						// value={searchQuery}
-						key={name}
-						id={name}
-						label={label}
-						variant='outlined'
-					/>
-				))}
-				<FormControl>
-					<InputLabel id='demo-simple-select-label'>Активные</InputLabel>
-					<Select
-						labelId='demo-simple-select-label'
-						id='demo-simple-select'
-						value={sort}
-						label='Sort'
-						onChange={handleChange}
-					>
-						<MenuItem value={10}>Активные</MenuItem>
-						<MenuItem value={20}>Все</MenuItem>
-					</Select>
-				</FormControl>
+			<Box>
+				<Box
+					sx={{
+						display: 'grid',
+						gridTemplateColumns: 'repeat(auto-fit,minmax(250px,1fr))',
+						gap: '20px',
+						marginBottom: '20px',
+					}}
+				>
+					{inputs.map(input => (
+						<TextField
+							key={input.label}
+							{...input}
+							value={querySearch[input.name]}
+							onChange={handleSearch}
+						/>
+					))}
+					<FormControl>
+						<InputLabel id='demo-simple-select-label'>Активные</InputLabel>
+						<Select labelId='demo-simple-select-label' id='demo-simple-select' label='Sort'>
+							<MenuItem value={10}>Активные</MenuItem>
+							<MenuItem value={20}>Все</MenuItem>
+						</Select>
+					</FormControl>
+				</Box>
+				<Box mb={2} sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
+					<Button variant='outlined' color='error'>
+						Сбросить
+					</Button>
+					<Button onClick={handleSubmit} type='button' variant='contained' color='primary'>
+						Поиск
+					</Button>
+				</Box>
 			</Box>
-			<Box mb={2} sx={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
-				<Button variant='outlined' color='error'>
-					Сбросить
-				</Button>
-				<Button variant='contained' color='primary'>
-					Поиск
-				</Button>
-			</Box>
-			<Box sx={{ width: '100%' }}>
-				<Paper sx={{ width: '100%', mb: 2 }}>
-					<EnhancedTableToolbar numSelected={selected.length} />
-					<TableContainer>
-						<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
-							<EnhancedTableHead
-								numSelected={selected.length}
-								order={order}
-								orderBy={orderBy}
-								onSelectAllClick={handleSelectAllClick}
-								onRequestSort={handleRequestSort}
-								rowCount={itemsQty}
-							/>
-							<TableBody>
-								{data?.map((row, index) => {
-									const isItemSelected = isSelected(row.lastname)
-									const labelId = `enhanced-table-checkbox-${index}`
-									return (
-										<TableRow
-											hover
-											onClick={event => handleClick(event, row.lastname)}
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={index}
-											selected={isItemSelected}
-										>
-											<TableCell padding='checkbox'>
-												<Checkbox
-													color='primary'
-													checked={isItemSelected}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
-											<TableCell component='th' id={labelId} scope='row' padding='none'>
-												{row.lastname}
-											</TableCell>
-											<TableCell>{row.firstname}</TableCell>
-											<TableCell>{row.patronymic}</TableCell>
-											<TableCell>{row.sex ? <div>муж</div> : <div>жен</div>}</TableCell>
-											<TableCell>{row.birthDate}</TableCell>
-											<TableCell>{row.active ? <div>Да</div> : <div>Нет</div>}</TableCell>
-										</TableRow>
-									)
-								})}
-								{emptyRows > 0 && (
-									<TableRow>
-										<TableCell colSpan={6} />
-									</TableRow>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
 
-					<TablePagination
-						rowsPerPageOptions={[5, 10, 30]}
-						component='div'
-						count={itemsQty}
-						rowsPerPage={rowsPerPage}
+			<Box sx={{ width: '100%' }}>
+				<TableContainer component={Paper} sx={{ marginBottom: '20px' }}>
+					<Table sx={{ minWidth: 650 }} aria-label='simple table'>
+						<TableHead>
+							<TableRow>
+								{headCells.map(headCell => (
+									<TableCell key={headCell.label} align='left'>
+										{headCell.label}
+									</TableCell>
+								))}
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{data.map((row, idx) => (
+								<TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+									<TableCell component='th' scope='row'>
+										{row.lastname}
+									</TableCell>
+									<TableCell>{row.firstname}</TableCell>
+									<TableCell>{row.patronymic}</TableCell>
+									<TableCell>{row.sex ? <div>муж</div> : <div>жен</div>}</TableCell>
+									<TableCell>{row.birthDate}</TableCell>
+									<TableCell>{row.active ? <div>Да</div> : <div>Нет</div>}</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<Stack spacing={2}>
+					<Pagination
+						count={pageQty}
 						page={page}
-						onPageChange={handleChangePage}
-						onRowsPerPageChange={handleChangeRowsPerPage}
+						sx={{ display: 'flex', justifyContent: 'center' }}
+						onChange={handlePage}
 					/>
-				</Paper>
+				</Stack>
 			</Box>
 		</>
 	)

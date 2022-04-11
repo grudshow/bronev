@@ -19,6 +19,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { Link } from 'react-router-dom'
 import { drawerWidth } from '../constants/constants'
 import { OpenSideBarContext } from '../context'
+import logo from '../img/logo.png'
 
 const openedMixin = theme => ({
 	width: drawerWidth,
@@ -92,7 +93,8 @@ const SideBar = () => {
 
 	return (
 		<Drawer variant='permanent' open={open}>
-			<DrawerHeader>
+			<DrawerHeader sx={{ display: 'flex', justifyContent: 'space-between' }}>
+				<img src={logo} alt='logo' />
 				<IconButton onClick={handleDrawerClose}>
 					{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 				</IconButton>
