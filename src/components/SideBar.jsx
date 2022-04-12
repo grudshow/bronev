@@ -94,7 +94,10 @@ const SideBar = () => {
 	return (
 		<Drawer variant='permanent' open={open}>
 			<DrawerHeader sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				<img src={logo} alt='logo' />
+				<Link to='/'>
+					<img src={logo} alt='logo' />
+				</Link>
+
 				<IconButton onClick={handleDrawerClose}>
 					{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 				</IconButton>
