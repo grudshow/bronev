@@ -4,7 +4,6 @@ import { styled, useTheme } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import Header from './Header'
 import { OpenSideBarContext } from '../context'
-import BreadCrumbs from './BreadCrumbs'
 import Footer from './Footer'
 import SideBar from './SideBar'
 
@@ -27,10 +26,7 @@ const Layout = () => {
 				<SideBar />
 				<Box component='main' sx={{ flexGrow: 1, p: 2 }}>
 					<DrawerHeader />
-					<BreadCrumbs />
-					<Box>
-						<Outlet />
-					</Box>
+					<Outlet />
 				</Box>
 				<Footer />
 			</Box>
