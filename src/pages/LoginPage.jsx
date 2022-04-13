@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
-import imgBg from '../img/bgmain.jpg'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
+import { useContext, useEffect, useState } from 'react'
+import { Box, Button, Typography } from '@mui/material'
 import { AuthContext } from '../context'
-import { Routes, Navigate, Route, useNavigate, useLocation } from 'react-router-dom'
+import imgBg from '../assets/images/bgmain.jpg'
 
 const LoginPage = () => {
-	const { isAuth, setIsAuth } = useContext(AuthContext)
+	const { setIsAuth } = useContext(AuthContext)
 	const [address, setAddress] = useState(null)
 	const [token, setToken] = useState('')
 	const [openModal, setOpenModal] = useState(false)
@@ -36,7 +33,6 @@ const LoginPage = () => {
 			}
 		}
 	}, [openModal])
-
 	return (
 		<Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
 			<img src={imgBg} alt='img' style={{ height: '100%' }} />

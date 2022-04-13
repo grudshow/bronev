@@ -1,5 +1,3 @@
-import { createContext } from 'react'
+import React from 'react'
 
-export const AuthContext = createContext(null)
-
-export const OpenSideBarContext = createContext(null)
+export const AuthContext = React.createContext(null)

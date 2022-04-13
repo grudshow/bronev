@@ -26,31 +26,57 @@ import instance from '../api/api'
 import { onlyNotEmpty } from '../utils/utils'
 import { useCustomHook } from '../hooks'
 
-const DirectionsPage = () => {
+const PeoplePage = () => {
 	const initialState = {
-		name: '',
+		FIO: '',
+		document: '',
+		phone: '',
 		show_all: '',
 	}
 
 	const { handlePage, handleReset, handleSubmit, handleSearch, pageQty, page, querySearch, data } =
-		useCustomHook(initialState, 'directions')
+		useCustomHook(initialState, 'people', 'people')
 
 	const headCells = [
 		{
-			id: 'name',
-			label: 'Наименование',
+			id: 'lastname',
+			label: 'Фамилия',
 		},
 		{
-			id: 'shortName',
-			label: 'Сокращение',
+			id: 'firstname',
+			label: 'Имя',
+		},
+		{
+			id: 'patronymic',
+			label: 'Отчество',
+		},
+		{
+			id: 'phone',
+			label: 'Телефон',
+		},
+		{
+			id: 'email',
+			label: 'E-mail',
+		},
+		{
+			id: 'document',
+			label: 'Серия и номер паспорта',
+		},
+		{
+			id: 'birthdate',
+			label: 'Дата рождения',
 		},
 	]
 
-	const inputs = [{ name: 'name', label: 'Поиск по Наименованию' }]
+	const inputs = [
+		{ name: 'FIO', label: 'Поиск по ФИО' },
+		{ name: 'document', label: 'Поиск по серии или номеру документа' },
+		{ name: 'phone', label: 'Поиск по Телефон' },
+	]
 
 	return (
 		<>
-			<BreadCrumbs breadcrumbs='Список направлений' path='/directions' />
+			<BreadCrumbs breadcrumbs='Список пассажиров' path='/people' />
 			{!data ? (
 				<Loading />
 			) : (
@@ -65,6 +91,7 @@ const DirectionsPage = () => {
 							}}
 						>
 							<Input querySearch={querySearch} handleSearch={handleSearch} inputs={inputs} />
+							<Select querySearch={querySearch} handleSearch={handleSearch} />
 						</Box>
 						<Buttons handleReset={handleReset} handleSubmit={handleSubmit} />
 					</Box>
@@ -117,9 +144,41 @@ function Row({ row, headCells }) {
 		<>
 			<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 				<TableCell component='th' scope='row'>
-					{row.name}
+					{row.lastname}
 				</TableCell>
-				<TableCell>{row.shortName}</TableCell>
+				<TableCell>{row.firstname}</TableCell>
+				<TableCell>{row.patronymic}</TableCell>
+				<TableCell>{row.sex ? <div>муж</div> : <div>жен</div>}</TableCell>
+				<TableCell>{row.birthDate.slice(0, 10)}</TableCell>
+				<TableCell>
+					{row.active ? (
+						<div
+							style={{
+								backgroundColor: 'green',
+								width: 'fit-content',
+								padding: '5px',
+								color: 'white',
+								fontWeight: 500,
+								borderRadius: '5px',
+							}}
+						>
+							Да
+						</div>
+					) : (
+						<div
+							style={{
+								backgroundColor: 'red',
+								width: 'fit-content',
+								padding: '5px',
+								color: 'white',
+								fontWeight: 500,
+								borderRadius: '5px',
+							}}
+						>
+							Нет
+						</div>
+					)}
+				</TableCell>
 				<TableCell>
 					<IconButton onClick={() => setOpenCard(!openCard)}>
 						{openCard ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -130,7 +189,9 @@ function Row({ row, headCells }) {
 				<Collapse in={openCard} timeout='auto' unmountOnExit>
 					<Table size='big'>
 						<TableHead>
-							<TableCell align='center'>{row.name}</TableCell>
+							<TableCell align='center'>
+								{row.firstname} {row.lastname}
+							</TableCell>
 						</TableHead>
 						<TableBody>
 							<Grid flexGrow={1} container rowSpacing={1} columnSpacing={1}>
@@ -145,8 +206,12 @@ function Row({ row, headCells }) {
 									))}
 								</Grid>
 								<Grid item xs={6}>
-									<Box sx={{ padding: '5px' }}>{row.name}</Box>
-									<Box sx={{ padding: '5px' }}>{row.shortName}</Box>
+									<Box sx={{ padding: '5px' }}>{row.lastname}</Box>
+									<Box sx={{ padding: '5px' }}>{row.firstname}</Box>
+									<Box sx={{ padding: '5px' }}>{row.patronymic}</Box>
+									<Box sx={{ padding: '5px' }}>{row.sex ? <div>муж</div> : <div>жен</div>}</Box>
+									<Box sx={{ padding: '5px' }}>{row.birthDate.slice(0, 10)}</Box>
+									<Box sx={{ padding: '5px' }}>{row.active ? <div>Да</div> : <div>Нет</div>}</Box>
 								</Grid>
 							</Grid>
 						</TableBody>
@@ -157,4 +222,4 @@ function Row({ row, headCells }) {
 	)
 }
 
-export default DirectionsPage
+export default PeoplePage
