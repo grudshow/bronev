@@ -22,6 +22,7 @@ const Accordion = ({ open, setOpen }) => {
 				{ name: 'Водители', breadcrumbs: 'Список водителей', path: '/drivers' },
 				{ name: 'Направления', breadcrumbs: 'Список направлений', path: '/directions' },
 				{ name: 'Пассажиры', breadcrumbs: 'Список пассажиров', path: '/people' },
+				{ name: 'Города', breadcrumbs: 'Список городов', path: '/cities' },
 			],
 		},
 		{

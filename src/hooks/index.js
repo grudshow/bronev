@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import instance from '../api/api'
+import { getApi } from '../api/api'
 import { onlyNotEmpty } from '../utils/utils'
 
-export const useCustomHook = (initialState, path, pathMain) => {
+export const useCustomHook = (initialState, path, site) => {
 	const [page, setPage] = useState(1)
 	const [data, setData] = useState(null)
 	const [loading, setLoading] = useState(true)
@@ -16,7 +16,7 @@ export const useCustomHook = (initialState, path, pathMain) => {
 		setQuerySearch({ ...querySearch, [name]: e.target.value })
 	}
 
-	const handleSubmit = () => {
+	const handleSubmit = path => {
 		setSubmit(!submit)
 		setPage(1)
 	}
@@ -31,9 +31,8 @@ export const useCustomHook = (initialState, path, pathMain) => {
 	}
 
 	useEffect(() => {
-		let mainPath = pathMain || 'dictionary'
-		instance
-			.get(`${mainPath}/${path}`, {
+		getApi()
+			.get(path, {
 				params: onlyNotEmpty({
 					page,
 					...querySearch,
@@ -41,11 +40,9 @@ export const useCustomHook = (initialState, path, pathMain) => {
 			})
 			.then(res => {
 				setLoading(false)
-				// console.log(res)
 				setData(res.data['hydra:member'])
 				setPageQty(Math.ceil(res.data['hydra:totalItems'] / 30))
 			})
-		console.log(pageQty)
 	}, [page, submit])
 
 	return {
@@ -53,10 +50,15 @@ export const useCustomHook = (initialState, path, pathMain) => {
 		handleReset,
 		handleSubmit,
 		handleSearch,
+		setLoading,
+		setData,
+		setPageQty,
 		pageQty,
 		page,
 		querySearch,
 		data,
 		initialState,
+		submit,
+		path,
 	}
 }

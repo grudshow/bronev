@@ -6,10 +6,12 @@ import DriversPage from '../pages/DriversPage'
 import DirectoinsPage from '../pages/DirectoinsPage'
 import OrderPage from '../pages/OrderPage'
 import PeoplePage from '../pages/PeoplePage'
+import CitiesPage from '../pages/CitiesPage'
 
 export const privateRoutes = [
-	{ path: '/drivers', component: <DriversPage />, name: 'Водители', exact: true },
+	{ path: '/drivers', index: true, component: <DriversPage />, name: 'Водители', exact: true },
 	{ path: '/directions', component: <DirectoinsPage />, name: 'Направления', exact: true },
+	{ path: '/cities', component: <CitiesPage />, name: 'Города', exact: true },
 	{ path: '/people', component: <PeoplePage />, name: 'Пассажиры', exact: true },
 	{ path: '/sale', component: <SalePage />, name: 'Продажи', exact: true },
 	{ path: '/routes', component: <RoutesPage />, name: 'Маршруты', exact: true },

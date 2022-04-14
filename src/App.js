@@ -36,7 +36,13 @@ const App = () => {
 				<Routes>
 					<Route path='/' element={<Layout />}>
 						{privateRoutes.map(route => (
-							<Route key={route.path} path={route.path} element={route.component}></Route>
+							<Route
+								index={route.index}
+								key={route.path}
+								path={route.path}
+								element={route.component}
+								exact={route.exact}
+							></Route>
 						))}
 					</Route>
 					<Route index element={<Navigate to='/drivers' replace />}></Route>

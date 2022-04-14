@@ -21,8 +21,6 @@ export default function MainPage() {
 	const theme = useTheme()
 	const [open, setOpen] = React.useState(false)
 
-	console.log('useLocation', useLocation())
-
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<Header open={open} setOpen={setOpen} />
