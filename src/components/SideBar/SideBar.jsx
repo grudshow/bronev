@@ -1,12 +1,15 @@
 import DrawerHeader from '../DrawerHeader/DrawerHeader'
 import { Drawer } from '../DrawerHeader/Drawer.styled'
 import Accordion from '../Accordion/Accordion'
+import { useSelector } from 'react-redux'
 
-const SideBar = ({ open, setOpen }) => {
+const SideBar = () => {
+	const open = useSelector(state => state.sideBarReducer.open)
+
 	return (
 		<Drawer variant='permanent' open={open}>
-			<DrawerHeader open={open} setOpen={setOpen} />
-			<Accordion open={open} setOpen={setOpen} />
+			<DrawerHeader />
+			<Accordion />
 		</Drawer>
 	)
 }

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import BreadCrumbs from '../components/BreadCrumbs'
-import Content from '../components/Content'
 import {
 	Table,
 	TableBody,
@@ -12,13 +11,10 @@ import {
 	Grid,
 	IconButton,
 } from '@mui/material'
+import Content from '../components/Content'
+import { useCustomHook } from '../hooks'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-
-import { useCustomHook } from '../hooks'
-import { onlyNotEmpty } from '../utils/utils'
-// import { getApi } from '../api/api'
-import axios from 'axios'
 
 const CitiesPage = () => {
 	const initialState = {
@@ -28,32 +24,36 @@ const CitiesPage = () => {
 		shortName: '',
 	}
 
-	// const { querySearch, page } = useCustomHook()
+	const {} = useCustomHook(initialState)
 
 	const headCells = [
 		{
-			id: 'lastname',
-			label: 'Фамилия',
+			id: 'shortName',
+			label: 'Сокращения',
 		},
 		{
-			id: 'firstname',
-			label: 'Имя',
+			id: 'name',
+			label: 'Наименование',
 		},
 		{
-			id: 'patronymic',
-			label: 'Отчество',
+			id: 'officialName',
+			label: 'Оф.наименование',
 		},
 		{
-			id: 'sex',
-			label: 'Пол',
+			id: 'okato',
+			label: 'Окато',
 		},
 		{
-			id: 'birthDate',
-			label: 'Дата рождения',
+			id: 'oktmo',
+			label: 'Октмо',
 		},
 		{
-			id: 'active',
-			label: 'Активность',
+			id: 'latitude',
+			label: 'Долгота',
+		},
+		{
+			id: 'longtitude',
+			label: 'Широта',
 		},
 	]
 
@@ -64,32 +64,72 @@ const CitiesPage = () => {
 		{ name: 'oktmo', label: 'Поиск по ОКТМО' },
 	]
 
-	useEffect(() => {
-		const instance = axios.create({
-			withCredentials: true,
-			headers: {
-				'Content-Type': 'application/json; charset=utf-8',
-				Accept: 'application/json',
-				'Access-Control-Allow-Origin': '*',
-			},
-		})
-
-		instance.interceptors.response.use(
-			function (response) {
-				localStorage.setItem('x-jwt-token', response.headers['x-jwt-token'])
-				return response
-			},
-			function (error) {
-				return Promise.reject(error)
-			},
-		)
-		instance.get('https://svida.routeam.ru/api/cities').then(res => console.log(res))
-	}, [])
-
 	return (
 		<>
-			{/* <BreadCrumbs breadcrumbs='Список городов' path='/cities' /> */}
-			{/* <Content initialState={initialState} inputs={inputs} headCells={headCells} Row={Row} /> */}
+			<BreadCrumbs breadcrumbs='Список городов' />
+			<Content
+				initialState={initialState}
+				inputs={inputs}
+				headCells={headCells}
+				Row={Row}
+				site='https://svida.routeam.ru/api/'
+				path='cities'
+			/>
+		</>
+	)
+}
+
+function Row({ row, headCells }) {
+	const [openCard, setOpenCard] = useState(false)
+	return (
+		<>
+			<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+				<TableCell component='th' scope='row'>
+					{row.shortName}
+				</TableCell>
+				<TableCell>{row.name}</TableCell>
+				<TableCell>{row.officialName}</TableCell>
+				<TableCell>{row.okato}</TableCell>
+				<TableCell>{row.oktmo}</TableCell>
+				<TableCell>{row.latitude}</TableCell>
+				<TableCell>{row.longtitude}</TableCell>
+				<TableCell>
+					<IconButton onClick={() => setOpenCard(!openCard)}>
+						{openCard ? <VisibilityOffIcon /> : <VisibilityIcon />}
+					</IconButton>
+				</TableCell>
+			</TableRow>
+			<TableRow>
+				<Collapse in={openCard} timeout='auto' unmountOnExit>
+					<Table size='big'>
+						<TableHead>
+							<TableCell align='center'>{row.name}</TableCell>
+						</TableHead>
+						<TableBody>
+							<Grid flexGrow={1} container rowSpacing={1} columnSpacing={1}>
+								<Grid item xs={6}>
+									{headCells.map(headCell => (
+										<div
+											key={headCell.label}
+											style={{ fontWeight: 700, color: 'black', padding: '5px' }}
+										>
+											{headCell.label}
+										</div>
+									))}
+								</Grid>
+								<Grid item xs={6}>
+									<Box sx={{ padding: '5px' }}>{row.shortName}</Box>
+									<Box sx={{ padding: '5px' }}>{row.officialName}</Box>
+									<Box sx={{ padding: '5px' }}>{row.okato}</Box>
+									<Box sx={{ padding: '5px' }}>{row.oktmo}</Box>
+									<Box sx={{ padding: '5px' }}>{row.latitude}</Box>
+									<Box sx={{ padding: '5px' }}>{row.longtitude}</Box>
+								</Grid>
+							</Grid>
+						</TableBody>
+					</Table>
+				</Collapse>
+			</TableRow>
 		</>
 	)
 }

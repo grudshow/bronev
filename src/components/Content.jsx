@@ -15,10 +15,10 @@ import {
 import { useCustomHook } from '../hooks'
 import Loading from './Loading'
 
-const Content = ({ initialState, inputs, headCells, Row, path }) => {
+const Content = ({ initialState, inputs, headCells, Row, path, site }) => {
 	const { handlePage, handleReset, handleSubmit, handleSearch, pageQty, page, querySearch, data } =
-		useCustomHook(initialState, path)
-
+		useCustomHook(initialState, site, path)
+	console.log(pageQty)
 	return !data ? (
 		<Loading />
 	) : (

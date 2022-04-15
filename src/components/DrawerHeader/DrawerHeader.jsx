@@ -5,11 +5,14 @@ import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-
-const DrawerHeader = ({ open, setOpen }) => {
+import { useDispatch } from 'react-redux'
+import { setToggleSideBar } from '../../store/customize/sideBarAction'
+const DrawerHeader = () => {
 	const theme = useTheme()
+
+	const dispatch = useDispatch()
 	const handleDrawerClose = () => {
-		setOpen(false)
+		dispatch(setToggleSideBar(false))
 	}
 	return (
 		<MyDrawerHeader sx={{ display: 'flex', justifyContent: 'space-between' }}>

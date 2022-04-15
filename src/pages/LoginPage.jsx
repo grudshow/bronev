@@ -1,13 +1,16 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Button, Typography } from '@mui/material'
-import { AuthContext } from '../context'
+import { useDispatch } from 'react-redux'
 import imgBg from '../assets/images/bgmain.jpg'
+import { authAction, setUserName } from '../store/actions/authAction'
+import { getApi } from '../api/api'
 
 const LoginPage = () => {
-	const { setIsAuth } = useContext(AuthContext)
 	const [address, setAddress] = useState(null)
 	const [token, setToken] = useState('')
 	const [openModal, setOpenModal] = useState(false)
+
+	const dispatch = useDispatch()
 
 	const openModalWindow = () => {
 		setAddress(
@@ -23,8 +26,10 @@ const LoginPage = () => {
 					const searchParams = new URLSearchParams(address.location.search)
 					setToken(searchParams.get('token'))
 					localStorage.setItem('token', searchParams.get('token'))
+					getApi()
+						.get('users/current')
+						.then(res => dispatch(setUserName(res.data.username)))
 					address.close()
-					setIsAuth(true)
 				}
 			}, 500)
 

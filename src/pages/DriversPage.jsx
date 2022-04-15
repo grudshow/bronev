@@ -61,7 +61,7 @@ const DriversPage = () => {
 
 	return (
 		<>
-			<BreadCrumbs breadcrumbs='Список водителей' path='/drivers' />
+			<BreadCrumbs breadcrumbs='Список водителей' />
 			<Content
 				initialState={initialState}
 				inputs={inputs}

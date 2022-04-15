@@ -40,7 +40,7 @@ const DirectionsPage = () => {
 
 	return (
 		<>
-			<BreadCrumbs breadcrumbs='Список направлений' path='/directions' />
+			<BreadCrumbs breadcrumbs='Список направлений' />
 			<Content
 				initialState={initialState}
 				inputs={inputs}

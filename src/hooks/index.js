@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import { getApi } from '../api/api'
 import { onlyNotEmpty } from '../utils/utils'
 
-export const useCustomHook = (initialState, path, site) => {
+export const useCustomHook = (initialState, site, path) => {
 	const [page, setPage] = useState(1)
 	const [data, setData] = useState(null)
+	// const [totalItems, setTotalItems] = useState(0)
+	const totalItems = 0
 	const [loading, setLoading] = useState(true)
 	const [pageQty, setPageQty] = useState(0)
 	const [submit, setSubmit] = useState(false)
@@ -31,7 +33,7 @@ export const useCustomHook = (initialState, path, site) => {
 	}
 
 	useEffect(() => {
-		getApi()
+		getApi(site)
 			.get(path, {
 				params: onlyNotEmpty({
 					page,
@@ -41,7 +43,10 @@ export const useCustomHook = (initialState, path, site) => {
 			.then(res => {
 				setLoading(false)
 				setData(res.data['hydra:member'])
-				setPageQty(Math.ceil(res.data['hydra:totalItems'] / 30))
+				console.log('res', res)
+				if (site) {
+					setPageQty(Math.ceil(res.data['hydra:totalItems'] / 50))
+				} else setPageQty(Math.ceil(res.data['hydra:totalItems'] / 30))
 			})
 	}, [page, submit])
 

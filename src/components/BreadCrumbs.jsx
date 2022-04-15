@@ -6,15 +6,13 @@ function handleClick(event) {
 	event.preventDefault()
 }
 
-export default function BreadCrumbs({ breadcrumbs, path }) {
+export default function BreadCrumbs({ breadcrumbs }) {
 	const location = useLocation()
-	const pathnames = location.pathname.split('/').filter(x => x)
-
 	return (
 		<Box mb={2}>
 			<Stack spacing={2}>
 				<Breadcrumbs separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
-					<Link onClick={handleClick} to={path}>
+					<Link onClick={handleClick} to={location.pathname}>
 						{breadcrumbs}
 					</Link>
 				</Breadcrumbs>

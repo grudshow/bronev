@@ -3,16 +3,16 @@ import { Toolbar, IconButton, Box, Button } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Link } from 'react-router-dom'
 import AppBar from './Header.styled'
+import { useDispatch, useSelector } from 'react-redux'
+import { setToggleSideBar } from '../../store/customize/sideBarAction'
+import { privateRoutes } from '../../router/routes'
 
-const Header = ({ open, setOpen }) => {
-	const pages = [
-		{ name: 'Продажи', to: '/sale' },
-		{ name: 'Маршруты', to: '/routes' },
-		{ name: 'Отчеты', to: '/report' },
-	]
+const Header = () => {
+	const open = useSelector(state => state.sideBarReducer.open)
+	const dispatch = useDispatch()
 
 	const handleDrawerOpen = () => {
-		setOpen(true)
+		dispatch(setToggleSideBar(true))
 	}
 	return (
 		<AppBar position='fixed' open={open}>
@@ -30,11 +30,13 @@ const Header = ({ open, setOpen }) => {
 					<MenuIcon />
 				</IconButton>
 				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-					{pages.map(page => (
-						<Link key={page.name} to={page.to}>
-							<Button sx={{ color: 'white', display: 'block' }}>{page.name}</Button>
-						</Link>
-					))}
+					{privateRoutes
+						.filter(item => item.menu)
+						.map(page => (
+							<Link key={page.name} to={page.path}>
+								<Button sx={{ color: 'white', display: 'block' }}>{page.name}</Button>
+							</Link>
+						))}
 				</Box>
 			</Toolbar>
 		</AppBar>

@@ -12,8 +12,11 @@ import MenuBookIcon from '@mui/icons-material/MenuBook'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Link } from 'react-router-dom'
-
-const Accordion = ({ open, setOpen }) => {
+import { useDispatch, useSelector } from 'react-redux'
+import { setToggleSideBar } from '../../store/customize/sideBarAction'
+import { privateRoutes } from '../../router/routes'
+const Accordion = () => {
+	const theme = useTheme()
 	const accordionItems = [
 		{
 			title: 'Справочники',
@@ -28,10 +31,12 @@ const Accordion = ({ open, setOpen }) => {
 		{
 			title: 'Заказы',
 			img: <ShoppingCartIcon />,
-			elements: [{ name: 'Просмотр', breadcrumbs: 'Список заказов', path: '/directions' }],
+			elements: [{ name: 'Просмотр', breadcrumbs: 'Список заказов', path: '/order' }],
 		},
 	]
-	const theme = useTheme()
+
+	const open = useSelector(state => state.sideBarReducer.open)
+	const dispatch = useDispatch()
 
 	return (
 		<List>
@@ -44,7 +49,7 @@ const Accordion = ({ open, setOpen }) => {
 					>
 						<ListItemButton
 							key={item.title}
-							onClick={() => (theme.direction !== 'rtl' ? setOpen(true) : '')}
+							onClick={() => (theme.direction !== 'rtl' ? dispatch(setToggleSideBar(true)) : '')}
 							sx={{
 								minHeight: 48,
 								justifyContent: open ? 'initial' : 'center',

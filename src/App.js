@@ -1,31 +1,26 @@
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { AuthContext } from './context'
-import { useEffect, useState } from 'react'
 import './assets/styles/style.sass'
 import Layout from './components/Layout'
 import { privateRoutes, publicRoutes } from './router/routes'
 
 const App = () => {
-	const [isAuth, setIsAuth] = useState(false)
+	const userName = useSelector(state => state.authReducer.userName)
+
 	let location = useLocation()
 	let navigate = useNavigate()
 
 	useEffect(() => {
-		if (!!localStorage.getItem('token')) {
-			setIsAuth(true)
-			console.log('АВТОРИЗИРОВАН!!', isAuth)
+		console.log('userName', userName)
+		if (userName) {
 			return navigate('/')
 		}
-	}, [isAuth])
+	}, [userName])
 
 	return (
-		<AuthContext.Provider
-			value={{
-				isAuth,
-				setIsAuth,
-			}}
-		>
-			{!isAuth ? (
+		<>
+			{!userName ? (
 				<Routes>
 					{publicRoutes.map(route => (
 						<Route key={route.path} path={route.path} element={route.component}></Route>
@@ -48,7 +43,7 @@ const App = () => {
 					<Route index element={<Navigate to='/drivers' replace />}></Route>
 				</Routes>
 			)}
-		</AuthContext.Provider>
+		</>
 	)
 }
 
