@@ -1,5 +1,5 @@
 import BreadCrumbs from '../components/BreadCrumbs'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
 	Table,
 	TableBody,

@@ -1,6 +1,9 @@
 import MyPagination from '@mui/material/Pagination'
+import { useSelector } from 'react-redux'
 
-const Pagination = ({ page, pageQty, handlePage }) => {
+const Pagination = ({ handlePage }) => {
+	const page = useSelector(state => state.dataReducer.page)
+	const pageQty = useSelector(state => state.dataReducer.pageQty)
 	return (
 		<MyPagination
 			count={pageQty}

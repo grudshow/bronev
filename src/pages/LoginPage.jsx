@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Typography } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import imgBg from '../assets/images/bgmain.jpg'
-import { authAction, setUserName } from '../store/actions/authAction'
+import { setUserName } from '../store/actions/authAction'
 import { getApi } from '../api/api'
 
 const LoginPage = () => {
 	const [address, setAddress] = useState(null)
 	const [token, setToken] = useState('')
 	const [openModal, setOpenModal] = useState(false)
+
+	const username = useSelector(state => state.authReducer.username)
 
 	const dispatch = useDispatch()
 
@@ -26,9 +28,14 @@ const LoginPage = () => {
 					const searchParams = new URLSearchParams(address.location.search)
 					setToken(searchParams.get('token'))
 					localStorage.setItem('token', searchParams.get('token'))
-					getApi()
-						.get('users/current')
-						.then(res => dispatch(setUserName(res.data.username)))
+					if (!username && !token) {
+						getApi()
+							.get('users/current')
+							.then(res => {
+								localStorage.setItem('username', res.data.username)
+								dispatch(setUserName(localStorage.getItem('username')))
+							})
+					}
 					address.close()
 				}
 			}, 500)
@@ -38,6 +45,7 @@ const LoginPage = () => {
 			}
 		}
 	}, [openModal])
+
 	return (
 		<Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
 			<img src={imgBg} alt='img' style={{ height: '100%' }} />

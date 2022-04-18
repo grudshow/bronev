@@ -13,12 +13,16 @@ import {
 	Box,
 } from '@mui/material'
 import { useCustomHook } from '../hooks'
+import { useSelector } from 'react-redux'
 import Loading from './Loading'
 
-const Content = ({ initialState, inputs, headCells, Row, path, site }) => {
-	const { handlePage, handleReset, handleSubmit, handleSearch, pageQty, page, querySearch, data } =
-		useCustomHook(initialState, site, path)
-	console.log(pageQty)
+const Content = ({ inputs, headCells, Row, path }) => {
+	const { handlePage, handleReset, handleSubmit, handleSearch } = useCustomHook(path)
+
+	const data = useSelector(state => state.dataReducer.data)
+	const pageQty = useSelector(state => state.dataReducer.pageQty)
+	const querySearch = useSelector(state => state.dataReducer.querySearch)
+
 	return !data ? (
 		<Loading />
 	) : (
@@ -32,10 +36,8 @@ const Content = ({ initialState, inputs, headCells, Row, path, site }) => {
 						marginBottom: '20px',
 					}}
 				>
-					<Input querySearch={querySearch} handleSearch={handleSearch} inputs={inputs} />
-					{'show_all' in initialState && (
-						<Select querySearch={querySearch} handleSearch={handleSearch} />
-					)}
+					<Input handleSearch={handleSearch} inputs={inputs} />
+					{'show_all' in querySearch && <Select handleSearch={handleSearch} />}
 				</Box>
 				<Buttons handleReset={handleReset} handleSubmit={handleSubmit} />
 			</Box>
@@ -73,9 +75,7 @@ const Content = ({ initialState, inputs, headCells, Row, path, site }) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			<Box sx={{ width: '100%' }}>
-				{pageQty != 1 && <Pagination page={page} pageQty={pageQty} handlePage={handlePage} />}
-			</Box>
+			<Box sx={{ width: '100%' }}>{pageQty != 1 && <Pagination handlePage={handlePage} />}</Box>
 		</>
 	)
 }

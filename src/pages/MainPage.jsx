@@ -1,25 +1,16 @@
-import * as React from 'react'
-import { useLocation } from 'react-router-dom'
-import { styled, useTheme } from '@mui/material/styles'
-import { Box, Typography } from '@mui/material'
-import { Routes } from 'react-router-dom'
+import { useState } from 'react'
+import { useTheme } from '@mui/material/styles'
+import { Box } from '@mui/material'
 import Header from '../components/Header'
 import BreadCrumbs from '../components/BreadCrumbs'
 import Footer from '../components/Footer'
 import SideBar from '../components/SideBar'
 import EnhancedTable from '../components/Table'
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'flex-end',
-	padding: theme.spacing(0, 1),
-	...theme.mixins.toolbar,
-}))
+import { DrawerHeader } from '../components/DrawerHeader/Drawer.styled'
 
 export default function MainPage() {
 	const theme = useTheme()
-	const [open, setOpen] = React.useState(false)
+	const [open, setOpen] = useState(false)
 
 	return (
 		<Box sx={{ display: 'flex' }}>

@@ -1,5 +1,8 @@
 import { TextField } from '@mui/material'
-const Input = ({ inputs, querySearch, handleSearch }) => {
+import { useSelector } from 'react-redux'
+const Input = ({ inputs, handleSearch }) => {
+	const querySearch = useSelector(state => state.dataReducer.querySearch)
+
 	return inputs.map(input => (
 		<TextField
 			key={input.label}

@@ -16,14 +16,20 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import { useCustomHook } from '../hooks'
+import { useDispatch } from 'react-redux'
+import { setQuerySearch } from '../store/actions/dataAction'
 
 const DriversPage = () => {
+	const dispatch = useDispatch()
+
 	const initialState = {
 		firstname: '',
 		lastname: '',
 		patronymic: '',
 		show_all: '',
 	}
+
+	dispatch(setQuerySearch(initialState))
 
 	const {} = useCustomHook(initialState)
 
@@ -53,6 +59,7 @@ const DriversPage = () => {
 			label: 'Активность',
 		},
 	]
+
 	const inputs = [
 		{ name: 'firstname', label: 'Поиск по Имени' },
 		{ name: 'lastname', label: 'Поиск по Фамилии' },
@@ -62,18 +69,12 @@ const DriversPage = () => {
 	return (
 		<>
 			<BreadCrumbs breadcrumbs='Список водителей' />
-			<Content
-				initialState={initialState}
-				inputs={inputs}
-				headCells={headCells}
-				Row={Row}
-				path='dictionary/drivers'
-			/>
+			<Content inputs={inputs} headCells={headCells} Row={Row} path='dictionary/drivers' />
 		</>
 	)
 }
 
-function Row({ row, headCells }) {
+const Row = ({ row, headCells }) => {
 	const [openCard, setOpenCard] = useState(false)
 	return (
 		<>

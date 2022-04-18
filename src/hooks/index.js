@@ -1,53 +1,48 @@
-import { useState, useEffect } from 'react'
-import { getApi } from '../api/api'
-import { onlyNotEmpty } from '../utils/utils'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setPage, setQuerySearch, setSubmit, getData } from '../store/actions/dataAction'
 
-export const useCustomHook = (initialState, site, path) => {
-	const [page, setPage] = useState(1)
-	const [data, setData] = useState(null)
-	// const [totalItems, setTotalItems] = useState(0)
-	const totalItems = 0
-	const [loading, setLoading] = useState(true)
-	const [pageQty, setPageQty] = useState(0)
-	const [submit, setSubmit] = useState(false)
-
-	const [querySearch, setQuerySearch] = useState(initialState)
+export const useCustomHook = (initialState, path) => {
+	const page = useSelector(state => state.dataReducer.page)
+	const querySearch = useSelector(state => state.dataReducer.querySearch)
+	const submit = useSelector(state => state.dataReducer.submit)
+	const dispatch = useDispatch()
 
 	const handleSearch = e => {
 		const name = e.target.name
-		setQuerySearch({ ...querySearch, [name]: e.target.value })
+		dispatch(setQuerySearch({ ...querySearch, [name]: e.target.value }))
 	}
 
-	const handleSubmit = path => {
-		setSubmit(!submit)
-		setPage(1)
+	const handleSubmit = () => {
+		dispatch(setSubmit(!submit))
+		dispatch(setPage(1))
 	}
 
 	const handleReset = () => {
-		setQuerySearch(initialState)
+		dispatch(setQuerySearch(initialState))
 		handleSubmit()
 	}
 
 	const handlePage = (event, value) => {
-		setPage(value)
+		dispatch(setPage(value))
 	}
 
 	useEffect(() => {
-		getApi(site)
-			.get(path, {
-				params: onlyNotEmpty({
-					page,
-					...querySearch,
-				}),
-			})
-			.then(res => {
-				setLoading(false)
-				setData(res.data['hydra:member'])
-				console.log('res', res)
-				if (site) {
-					setPageQty(Math.ceil(res.data['hydra:totalItems'] / 50))
-				} else setPageQty(Math.ceil(res.data['hydra:totalItems'] / 30))
-			})
+		dispatch(getData(page, querySearch, path))
+		// getApi(site)
+		// 	.get(path, {
+		// 		params: onlyNotEmpty({
+		// 			page,
+		// 			...querySearch,
+		// 		}),
+		// 	})
+		// .then(res => {
+		// 	console.log('path', path)
+		// 	dispatch(setLoading(false))
+		// 	dispatch(setData(res.data['hydra:member']))
+		// 	if (site) dispatch(setPageQty(Math.ceil(res.data['hydra:totalItems'] / 50)))
+		// 	else dispatch(setPageQty(Math.ceil(res.data['hydra:totalItems'] / 30)))
+		// })
 	}, [page, submit])
 
 	return {
@@ -55,15 +50,5 @@ export const useCustomHook = (initialState, site, path) => {
 		handleReset,
 		handleSubmit,
 		handleSearch,
-		setLoading,
-		setData,
-		setPageQty,
-		pageQty,
-		page,
-		querySearch,
-		data,
-		initialState,
-		submit,
-		path,
 	}
 }

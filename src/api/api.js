@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-export const getApi = (url = process.env.REACT_APP_API) => {
+export const getApi = () => {
 	const token = localStorage.getItem('token')
 
 	const instance = axios.create({
-		baseURL: url,
+		baseURL: process.env.REACT_APP_API,
 		withCredentials: false,
 		headers: {
 			'Content-Type': 'application/json; charset=utf-8',

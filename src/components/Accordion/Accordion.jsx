@@ -14,9 +14,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setToggleSideBar } from '../../store/customize/sideBarAction'
-import { privateRoutes } from '../../router/routes'
+
+
 const Accordion = () => {
 	const theme = useTheme()
+
 	const accordionItems = [
 		{
 			title: 'Справочники',

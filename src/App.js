@@ -1,26 +1,29 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import './assets/styles/style.sass'
 import Layout from './components/Layout'
 import { privateRoutes, publicRoutes } from './router/routes'
+import { setUserName } from './store/actions/authAction'
 
 const App = () => {
-	const userName = useSelector(state => state.authReducer.userName)
+	const username = useSelector(state => state.authReducer.username)
+
+	const dispatch = useDispatch()
 
 	let location = useLocation()
 	let navigate = useNavigate()
 
 	useEffect(() => {
-		console.log('userName', userName)
-		if (userName) {
+		if (localStorage.getItem('username')) {
+			dispatch(setUserName(localStorage.getItem('username')))
 			return navigate('/')
 		}
-	}, [userName])
+	}, [username])
 
 	return (
 		<>
-			{!userName ? (
+			{!username ? (
 				<Routes>
 					{publicRoutes.map(route => (
 						<Route key={route.path} path={route.path} element={route.component}></Route>
