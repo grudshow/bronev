@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { DrawerHeader as MyDrawerHeader } from './Drawer.styled'
 import logo from '../../assets/images/logo.png'
@@ -15,9 +15,29 @@ const DrawerHeader = () => {
 		dispatch(setToggleSideBar(false))
 	}
 	return (
-		<MyDrawerHeader sx={{ display: 'flex', justifyContent: 'space-between' }}>
-			<Link to='/'>
+		<MyDrawerHeader>
+			<Link
+				to='/'
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					width: '100%',
+					justifyContent: 'flex-start',
+					gap: '15px',
+				}}
+			>
 				<img src={logo} alt='logo' />
+				<Typography
+					variant='h5'
+					sx={{
+						color: 'text.secondary',
+						textDecoration: 'none !important',
+						textTransform: 'uppercase',
+						fontWeight: 600,
+					}}
+				>
+					бронев
+				</Typography>
 			</Link>
 
 			<IconButton onClick={handleDrawerClose}>

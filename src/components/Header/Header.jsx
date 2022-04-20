@@ -5,7 +5,7 @@ import AppBar from './Header.styled'
 import { useDispatch, useSelector } from 'react-redux'
 import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 import { privateRoutes } from '../../router/routes'
-import ToggleColorMode from '../ToggleColorMode/ToggleColorMode'
+import ToggleTheme from '../ToggleTheme/ToggleTheme'
 
 const Header = () => {
 	const open = useSelector(state => state.sideBarReducer.open)
@@ -38,7 +38,7 @@ const Header = () => {
 							</Link>
 						))}
 				</Box>
-				<ToggleColorMode />
+				<ToggleTheme />
 			</Toolbar>
 		</AppBar>
 	)

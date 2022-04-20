@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
+import { privateRoutes } from '../../router/routes'
 
 const Accordion = () => {
 	const theme = useTheme()
@@ -23,17 +24,10 @@ const Accordion = () => {
 		{
 			title: 'Справочники',
 			img: <MenuBookIcon />,
-			elements: [
-				{ name: 'Водители', breadcrumbs: 'Список водителей', path: '/drivers' },
-				{ name: 'Направления', breadcrumbs: 'Список направлений', path: '/directions' },
-				{ name: 'Пассажиры', breadcrumbs: 'Список пассажиров', path: '/people' },
-				{ name: 'Города', breadcrumbs: 'Список городов', path: '/cities' },
-			],
 		},
 		{
 			title: 'Заказы',
 			img: <ShoppingCartIcon />,
-			elements: [{ name: 'Просмотр', breadcrumbs: 'Список заказов', path: '/order' }],
 		},
 	]
 
@@ -41,7 +35,7 @@ const Accordion = () => {
 	const dispatch = useDispatch()
 
 	return (
-		<List>
+		<List sx={{ padding: '0' }}>
 			{accordionItems.map((item, idx) => (
 				<MyAccordion key={idx}>
 					<AccordionSummary
@@ -75,21 +69,23 @@ const Accordion = () => {
 					</AccordionSummary>
 					{open && (
 						<AccordionDetails>
-							{item.elements.map((elem, idx) => (
-								<Link
-									style={{
-										display: 'block',
-										marginBottom: '10px',
-										textDecoration: 'none',
-									}}
-									to={elem.path}
-									key={idx}
-								>
-									<Typography variant='h8' sx={{ color: 'text.primary' }}>
-										{elem.name}
-									</Typography>
-								</Link>
-							))}
+							{privateRoutes
+								.filter(elem => elem.titleAccordion === item.title)
+								.map((elem, idx) => (
+									<Link
+										style={{
+											display: 'block',
+											marginBottom: '5px',
+											textDecoration: 'none',
+										}}
+										to={elem.path}
+										key={idx}
+									>
+										<Typography variant='h8' sx={{ color: 'text.primary' }}>
+											{elem.name}
+										</Typography>
+									</Link>
+								))}
 						</AccordionDetails>
 					)}
 				</MyAccordion>

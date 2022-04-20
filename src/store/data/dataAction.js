@@ -1,5 +1,5 @@
 import { getApi } from '../../api/api'
-import { onlyNotEmpty } from '../../utils/utils'
+import { onlyNotEmpty } from '../../utils/onlyNotEmpty'
 import {
 	SET_DATA,
 	SET_LOADING,
