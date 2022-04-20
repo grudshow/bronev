@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useDispatch } from 'react-redux'
-import { setToggleSideBar } from '../../store/customize/sideBarAction'
+import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 const DrawerHeader = () => {
 	const theme = useTheme()
 

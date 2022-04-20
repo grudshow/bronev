@@ -3,8 +3,9 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { Link } from 'react-router-dom'
 import AppBar from './Header.styled'
 import { useDispatch, useSelector } from 'react-redux'
-import { setToggleSideBar } from '../../store/customize/sideBarAction'
+import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 import { privateRoutes } from '../../router/routes'
+import ToggleColorMode from '../ToggleColorMode/ToggleColorMode'
 
 const Header = () => {
 	const open = useSelector(state => state.sideBarReducer.open)
@@ -37,6 +38,7 @@ const Header = () => {
 							</Link>
 						))}
 				</Box>
+				<ToggleColorMode />
 			</Toolbar>
 		</AppBar>
 	)

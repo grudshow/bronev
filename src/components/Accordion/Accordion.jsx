@@ -7,13 +7,14 @@ import {
 	Accordion as MyAccordion,
 	AccordionSummary,
 	AccordionDetails,
+	Typography,
 } from '@mui/material'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setToggleSideBar } from '../../store/customize/sideBarAction'
+import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 
 const Accordion = () => {
 	const theme = useTheme()
@@ -79,13 +80,14 @@ const Accordion = () => {
 									style={{
 										display: 'block',
 										marginBottom: '10px',
-										color: 'initial',
 										textDecoration: 'none',
 									}}
 									to={elem.path}
 									key={idx}
 								>
-									{elem.name}
+									<Typography variant='h8' sx={{ color: 'text.primary' }}>
+										{elem.name}
+									</Typography>
 								</Link>
 							))}
 						</AccordionDetails>

@@ -44,7 +44,7 @@ const LoginPage = () => {
 				clearInterval(intervalID)
 			}
 		}
-	}, [openModal])
+	})
 
 	return (
 		<Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>

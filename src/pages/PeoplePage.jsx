@@ -75,7 +75,6 @@ const PeoplePage = () => {
 
 const Row = ({ row, headCells }) => {
 	const [openCard, setOpenCard] = useState(false)
-	console.log(row)
 	return (
 		<>
 			<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

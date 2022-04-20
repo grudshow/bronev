@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import sideBarReducer from '../customize/sideBarReducer'
+import sideBarReducer from '../sideBar/sideBarReducer'
 import authReducer from '../auth/authReducer'
 import dataReducer from '../data/dataReducer'
 

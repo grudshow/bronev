@@ -3,14 +3,14 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import App from './App'
 import store from './store/store'
-import { ScopedCssBaseline } from '@mui/material'
+import ColorModeContextProvider from './context/ColorModeContext'
 
 ReactDOM.render(
 	<BrowserRouter>
 		<Provider store={store}>
-			<ScopedCssBaseline enableColorScheme>
+			<ColorModeContextProvider>
 				<App />
-			</ScopedCssBaseline>
+			</ColorModeContextProvider>
 		</Provider>
 	</BrowserRouter>,
 	document.getElementById('root'),
