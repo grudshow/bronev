@@ -12,7 +12,6 @@ const Buttons = ({ initialState }) => {
 	}
 
 	const handleReset = () => {
-	
 		dispatch(setQuerySearch(initialState))
 		handleSubmit()
 	}

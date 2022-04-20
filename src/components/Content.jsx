@@ -27,7 +27,6 @@ const Content = ({ inputs, headCells, Row, initialState, path, site }) => {
 	const pageQty = useSelector(state => state.dataReducer.pageQty)
 
 	const handleSearch = e => {
-		dispatch(setQuerySearch(initialState))
 		const name = e.target.name
 		dispatch(setQuerySearch({ ...querySearch, [name]: e.target.value }))
 	}
@@ -35,6 +34,10 @@ const Content = ({ inputs, headCells, Row, initialState, path, site }) => {
 	useEffect(() => {
 		dispatch(getData(page, querySearch, path, site))
 	}, [page, submit])
+
+	useEffect(() => {
+		dispatch(setQuerySearch(initialState))
+	}, [])
 
 	return !data ? (
 		<Loading />
