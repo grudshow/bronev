@@ -1,5 +1,8 @@
 import { useState } from 'react'
+<<<<<<< HEAD
+=======
 import BreadCrumbs from '../components/BreadCrumbs'
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 import Content from '../components/Content'
 import {
 	Table,
@@ -16,12 +19,18 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import { useCustomHook } from '../hooks'
+<<<<<<< HEAD
+import { useSelector } from 'react-redux'
+
+const DriversPage = () => {
+=======
 import { useDispatch } from 'react-redux'
 import { setQuerySearch } from '../store/actions/dataAction'
 
 const DriversPage = () => {
 	const dispatch = useDispatch()
 
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 	const initialState = {
 		firstname: '',
 		lastname: '',
@@ -29,6 +38,33 @@ const DriversPage = () => {
 		show_all: '',
 	}
 
+<<<<<<< HEAD
+	const {} = useCustomHook('dictionary/drivers', initialState)
+
+	const headCells = [
+		{
+			value: 'lastname',
+			label: 'Фамилия',
+		},
+		{
+			value: 'firstname',
+			label: 'Имя',
+		},
+		{
+			value: 'patronymic',
+			label: 'Отчество',
+		},
+		{
+			value: 'sex',
+			label: 'Пол',
+		},
+		{
+			value: 'birthDate',
+			label: 'Дата рождения',
+		},
+		{
+			value: 'active',
+=======
 	dispatch(setQuerySearch(initialState))
 
 	const {} = useCustomHook(initialState)
@@ -56,6 +92,7 @@ const DriversPage = () => {
 		},
 		{
 			id: 'active',
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 			label: 'Активность',
 		},
 	]
@@ -66,12 +103,16 @@ const DriversPage = () => {
 		{ name: 'patronymic', label: 'Поиск по Отчеству' },
 	]
 
+<<<<<<< HEAD
+	return <Content inputs={inputs} headCells={headCells} Row={Row} />
+=======
 	return (
 		<>
 			<BreadCrumbs breadcrumbs='Список водителей' />
 			<Content inputs={inputs} headCells={headCells} Row={Row} path='dictionary/drivers' />
 		</>
 	)
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 }
 
 const Row = ({ row, headCells }) => {
@@ -85,7 +126,11 @@ const Row = ({ row, headCells }) => {
 				<TableCell>{row.firstname}</TableCell>
 				<TableCell>{row.patronymic}</TableCell>
 				<TableCell>{row.sex ? <div>муж</div> : <div>жен</div>}</TableCell>
+<<<<<<< HEAD
+				<TableCell>{row?.birthDate?.slice(0, 10)}</TableCell>
+=======
 				<TableCell>{row.birthDate.slice(0, 10)}</TableCell>
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 				<TableCell>
 					{row.active ? (
 						<div

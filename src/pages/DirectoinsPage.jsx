@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 import BreadCrumbs from '../components/BreadCrumbs'
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 import { useState } from 'react'
 import {
 	Table,
@@ -16,6 +19,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import { useCustomHook } from '../hooks'
 import Content from '../components/Content'
+<<<<<<< HEAD
+import { useSelector } from 'react-redux'
+
+const DirectionsPage = () => {
+	const querySearch = useSelector(state => state.directoinsReducer.querySearch)
+
+	const {} = useCustomHook('dictionary/directions', querySearch)
+=======
 
 const DirectionsPage = () => {
 	const initialState = {
@@ -24,6 +35,7 @@ const DirectionsPage = () => {
 	}
 
 	const {} = useCustomHook(initialState)
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 
 	const headCells = [
 		{
@@ -38,6 +50,9 @@ const DirectionsPage = () => {
 
 	const inputs = [{ name: 'name', label: 'Поиск по Наименованию' }]
 
+<<<<<<< HEAD
+	return <Content inputs={inputs} headCells={headCells} Row={Row} querySearch={querySearch} />
+=======
 	return (
 		<>
 			<BreadCrumbs breadcrumbs='Список направлений' />
@@ -50,6 +65,7 @@ const DirectionsPage = () => {
 			/>
 		</>
 	)
+>>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 }
 
 function Row({ row, headCells }) {
