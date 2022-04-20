@@ -8,7 +8,6 @@ function handleClick(event) {
 
 export default function BreadCrumbs() {
 	const location = useLocation()
-
 	const breadcrumbs = privateRoutes.find(route => route.path === location.pathname).breadcrumbs
 
 	return (

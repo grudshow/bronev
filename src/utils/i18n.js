@@ -10,9 +10,12 @@ i18n
 	.init({
 		fallbackLng: 'en',
 		debug: true,
-
 		interpolation: {
 			escapeValue: false,
+		},
+		detection: {
+			order: ['queryString', 'cookie'],
+			cache: ['cookie'],
 		},
 	})
 

@@ -9,6 +9,7 @@ import {
 	Box,
 	Grid,
 	IconButton,
+	Typography,
 } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
@@ -69,12 +70,9 @@ function Row({ row, headCells }) {
 							<Grid flexGrow={1} container rowSpacing={1} columnSpacing={1}>
 								<Grid item xs={6}>
 									{headCells.map(headCell => (
-										<div
-											key={headCell.label}
-											style={{ fontWeight: 700, color: 'black', padding: '5px' }}
-										>
+										<Typography key={headCell.label} sx={{ fontWeight: 700, padding: '5px' }}>
 											{headCell.label}
-										</div>
+										</Typography>
 									))}
 								</Grid>
 								<Grid item xs={6}>
