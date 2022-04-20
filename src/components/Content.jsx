@@ -35,7 +35,7 @@ const Content = ({ inputs, headCells, Row }) => {
 						marginBottom: '20px',
 					}}
 				>
-					<Input handleSearch={handleSearch} inputs={inputs} querySearch={querySearch} />
+					{/* <Input handleSearch={handleSearch} inputs={inputs} querySearch={querySearch} /> */}
 					{/* <Select handleSearch={handleSearch} querySearch={querySearch} /> */}
 					{/* {'show_all' in querySearch && (
 					)} */}
