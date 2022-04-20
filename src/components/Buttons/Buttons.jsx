@@ -1,14 +1,20 @@
 import { Box, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPage, setSubmit } from '../../store/actions/dataAction'
+import { setPage, setSubmit, setQuerySearch } from '../../store/data/dataAction'
 
-const Buttons = ({ handleReset }) => {
+const Buttons = ({ initialState }) => {
 	const dispatch = useDispatch()
 	const submit = useSelector(state => state.dataReducer.submit)
 
 	const handleSubmit = () => {
 		dispatch(setSubmit(!submit))
 		dispatch(setPage(1))
+	}
+
+	const handleReset = () => {
+	
+		dispatch(setQuerySearch(initialState))
+		handleSubmit()
 	}
 
 	return (

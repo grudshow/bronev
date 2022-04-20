@@ -14,9 +14,6 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
-import { useCustomHook } from '../hooks'
-import { useSelector } from 'react-redux'
-
 const DriversPage = () => {
 	const initialState = {
 		firstname: '',
@@ -24,8 +21,6 @@ const DriversPage = () => {
 		patronymic: '',
 		show_all: '',
 	}
-
-	const {} = useCustomHook('dictionary/drivers', initialState)
 
 	const headCells = [
 		{
@@ -60,7 +55,15 @@ const DriversPage = () => {
 		{ name: 'patronymic', label: 'Поиск по Отчеству' },
 	]
 
-	return <Content inputs={inputs} headCells={headCells} Row={Row} />
+	return (
+		<Content
+			inputs={inputs}
+			headCells={headCells}
+			Row={Row}
+			initialState={initialState}
+			path='dictionary/drivers'
+		/>
+	)
 }
 
 const Row = ({ row, headCells }) => {
@@ -135,7 +138,7 @@ const Row = ({ row, headCells }) => {
 									<Box sx={{ padding: '5px' }}>{row.firstname}</Box>
 									<Box sx={{ padding: '5px' }}>{row.patronymic}</Box>
 									<Box sx={{ padding: '5px' }}>{row.sex ? <div>муж</div> : <div>жен</div>}</Box>
-									<Box sx={{ padding: '5px' }}>{row.birthDate.slice(0, 10)}</Box>
+									<Box sx={{ padding: '5px' }}>{row.birthDate?.slice(0, 10)}</Box>
 									<Box sx={{ padding: '5px' }}>{row.active ? <div>Да</div> : <div>Нет</div>}</Box>
 								</Grid>
 							</Grid>

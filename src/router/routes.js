@@ -3,7 +3,7 @@ import SalePage from '../pages/SalePage'
 import RoutesPage from '../pages/RoutesPage'
 import ReportPage from '../pages/ReportPage'
 import DriversPage from '../pages/DriversPage'
-import DirectoinsPage from '../pages/DirectoinsPage'
+import DirectionsPage from '../pages/DirectionsPage'
 import OrderPage from '../pages/OrderPage'
 import PeoplePage from '../pages/PeoplePage'
 import CitiesPage from '../pages/CitiesPage'
@@ -19,7 +19,7 @@ export const privateRoutes = [
 	},
 	{
 		path: '/directions',
-		component: <DirectoinsPage />,
+		component: <DirectionsPage />,
 		name: 'Направления',
 		exact: true,
 		breadcrumbs: 'Список направлений',

@@ -1,6 +1,8 @@
 import { FormControl, Select as MySelect, MenuItem, InputLabel } from '@mui/material'
+import { useSelector } from 'react-redux'
 
-const Select = ({ handleSearch, querySearch }) => {
+const Select = ({ handleSearch }) => {
+	const querySearch = useSelector(state => state.dataReducer.querySearch)
 	return (
 		<FormControl>
 			<InputLabel id='demo-simple-select-label'>Активные</InputLabel>

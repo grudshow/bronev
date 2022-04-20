@@ -1,10 +1,10 @@
+import { CssBaseline } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import './assets/styles/style.sass'
 import Layout from './components/Layout'
 import { privateRoutes, publicRoutes } from './router/routes'
-import { setUserName } from './store/actions/authAction'
+import { setUserName } from './store/auth/authAction'
 
 const App = () => {
 	const username = useSelector(state => state.authReducer.username)
@@ -23,6 +23,7 @@ const App = () => {
 
 	return (
 		<>
+			<CssBaseline />
 			{!username ? (
 				<Routes>
 					{publicRoutes.map(route => (

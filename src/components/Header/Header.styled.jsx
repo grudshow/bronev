@@ -1,5 +1,5 @@
 import MuiAppBar from '@mui/material/AppBar'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import { drawerWidth } from '../../constants/constants'
 
 const AppBar = styled(MuiAppBar, {

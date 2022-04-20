@@ -1,5 +1,4 @@
 import { Toolbar, IconButton, Box, Button } from '@mui/material'
-
 import MenuIcon from '@mui/icons-material/Menu'
 import { Link } from 'react-router-dom'
 import AppBar from './Header.styled'
@@ -33,7 +32,7 @@ const Header = () => {
 					{privateRoutes
 						.filter(item => item.menu)
 						.map(page => (
-							<Link key={page.name} to={page.path}>
+							<Link style={{ textDecoration: 'none' }} key={page.name} to={page.path}>
 								<Button sx={{ color: 'white', display: 'block' }}>{page.name}</Button>
 							</Link>
 						))}

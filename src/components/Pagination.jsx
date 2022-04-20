@@ -1,6 +1,6 @@
 import MyPagination from '@mui/material/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPage } from '../store/actions/dataAction'
+import { setPage } from '../store/data/dataAction'
 
 const Pagination = () => {
 	const page = useSelector(state => state.dataReducer.page)

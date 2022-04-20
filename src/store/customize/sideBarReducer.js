@@ -1,4 +1,4 @@
-import { TOGGLE_SIDE_BAR } from '../contants/sideBarType'
+import { TOGGLE_SIDE_BAR } from './sideBarType'
 
 const initialState = {
 	open: false,

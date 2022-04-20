@@ -76,7 +76,12 @@ const Accordion = () => {
 						<AccordionDetails>
 							{item.elements.map((elem, idx) => (
 								<Link
-									style={{ display: 'block', marginBottom: '10px', color: 'initial' }}
+									style={{
+										display: 'block',
+										marginBottom: '10px',
+										color: 'initial',
+										textDecoration: 'none',
+									}}
 									to={elem.path}
 									key={idx}
 								>

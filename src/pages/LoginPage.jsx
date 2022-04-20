@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import imgBg from '../assets/images/bgmain.jpg'
-import { setUserName } from '../store/actions/authAction'
+import { setUserName } from '../store/auth/authAction'
 import { getApi } from '../api/api'
 
 const LoginPage = () => {

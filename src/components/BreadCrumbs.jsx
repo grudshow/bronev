@@ -15,7 +15,11 @@ export default function BreadCrumbs() {
 		<Box mb={2}>
 			<Stack spacing={2}>
 				<Breadcrumbs separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
-					<Link onClick={handleClick} to={location.pathname}>
+					<Link
+						onClick={handleClick}
+						to={location.pathname}
+						style={{ textDecoration: 'none', color: 'initial' }}
+					>
 						{breadcrumbs}
 					</Link>
 				</Breadcrumbs>

@@ -12,8 +12,6 @@ import {
 } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-
-import { useCustomHook } from '../hooks'
 import Content from '../components/Content'
 
 const PeoplePage = () => {
@@ -22,8 +20,6 @@ const PeoplePage = () => {
 		document: '',
 		phone: '',
 	}
-
-	const {} = useCustomHook(initialState, 'people/people/smart-search')
 
 	const headCells = [
 		{
@@ -66,12 +62,20 @@ const PeoplePage = () => {
 		{ name: 'phone', label: 'Поиск по Телефон' },
 	]
 
-	return <Content inputs={inputs} headCells={headCells} Row={Row} />
+	return (
+		<Content
+			inputs={inputs}
+			headCells={headCells}
+			Row={Row}
+			initialState={initialState}
+			path='people/people/smart-search'
+		/>
+	)
 }
 
-function Row({ row, headCells }) {
+const Row = ({ row, headCells }) => {
 	const [openCard, setOpenCard] = useState(false)
-
+	console.log(row)
 	return (
 		<>
 			<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -83,10 +87,12 @@ function Row({ row, headCells }) {
 				<TableCell>{row.phone}</TableCell>
 				<TableCell>{row.email}</TableCell>
 				<TableCell>{row.sex ? <div>муж</div> : <div>жен</div>}</TableCell>
-				<TableCell>
-					{row?.documents[0]?.serial} {row?.documents[0]?.number}
-				</TableCell>
-				<TableCell>{row.birthdate.slice(0, 10)}</TableCell>
+				{row?.documents && (
+					<TableCell>
+						{row?.documents[0]?.serial} {row?.documents[0]?.number}
+					</TableCell>
+				)}
+				<TableCell>{row?.birthdate?.slice(0, 10)}</TableCell>
 				<TableCell>
 					<IconButton onClick={() => setOpenCard(!openCard)}>
 						{openCard ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -120,10 +126,12 @@ function Row({ row, headCells }) {
 									<Box sx={{ padding: '5px' }}>{row.phone}</Box>
 									<Box sx={{ padding: '5px' }}>{row.email}</Box>
 									<Box sx={{ padding: '5px' }}>{row.sex ? <div>муж</div> : <div>жен</div>}</Box>
-									<Box sx={{ padding: '5px' }}>
-										{row.documents[0]?.serial} {row.documents[0]?.number}
-									</Box>
-									<Box sx={{ padding: '5px' }}>{row.birthdate.slice(0, 10)}</Box>
+									{row?.documents && (
+										<Box sx={{ padding: '5px' }}>
+											{row?.documents[0]?.serial} {row?.documents[0]?.number}
+										</Box>
+									)}
+									<Box sx={{ padding: '5px' }}>{row?.birthdate?.slice(0, 10)}</Box>
 								</Grid>
 							</Grid>
 						</TableBody>

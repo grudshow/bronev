@@ -11,7 +11,6 @@ import {
 	IconButton,
 } from '@mui/material'
 import Content from '../components/Content'
-import { useCustomHook } from '../hooks'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
@@ -22,8 +21,6 @@ const CitiesPage = () => {
 		oktmo: '',
 		shortName: '',
 	}
-
-	const {} = useCustomHook(initialState)
 
 	const headCells = [
 		{
@@ -65,16 +62,17 @@ const CitiesPage = () => {
 
 	return (
 		<Content
+			initialState={initialState}
 			inputs={inputs}
 			headCells={headCells}
 			Row={Row}
-			site='https://svida.routeam.ru/api/'
 			path='cities'
+			site='https://svida.routeam.ru/api/'
 		/>
 	)
 }
 
-function Row({ row, headCells }) {
+const Row = ({ row, headCells }) => {
 	const [openCard, setOpenCard] = useState(false)
 	return (
 		<>
