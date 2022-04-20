@@ -15,7 +15,6 @@ export const privateRoutes = [
 		component: <DriversPage />,
 		name: 'Водители',
 		exact: true,
-<<<<<<< HEAD
 		breadcrumbs: 'Список водителей',
 	},
 	{
@@ -39,12 +38,6 @@ export const privateRoutes = [
 		exact: true,
 		breadcrumbs: 'Список пассажиров',
 	},
-=======
-	},
-	{ path: '/directions', component: <DirectoinsPage />, name: 'Направления', exact: true },
-	{ path: '/cities', component: <CitiesPage />, name: 'Города', exact: true },
-	{ path: '/people', component: <PeoplePage />, name: 'Пассажиры', exact: true },
->>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 	{ path: '/sale', component: <SalePage />, menu: true, name: 'Продажи', exact: true },
 	{ path: '/routes', component: <RoutesPage />, menu: true, name: 'Маршруты', exact: true },
 	{ path: '/report', component: <ReportPage />, menu: true, name: 'Отчеты', exact: true },

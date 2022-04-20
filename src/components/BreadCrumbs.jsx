@@ -6,14 +6,11 @@ function handleClick(event) {
 	event.preventDefault()
 }
 
-export default function BreadCrumbs({ breadcrumbs }) {
+export default function BreadCrumbs() {
 	const location = useLocation()
-<<<<<<< HEAD
 
 	const breadcrumbs = privateRoutes.find(route => route.path === location.pathname).breadcrumbs
 
-=======
->>>>>>> e56e7f6c9c00ef25c163b9e00791d1847039f73c
 	return (
 		<Box mb={2}>
 			<Stack spacing={2}>
