@@ -1,0 +1,19 @@
+import { TOGGLE_SIDE_BAR } from '../contants/sideBarType'
+
+const initialState = {
+	open: false,
+}
+
+const sideBarReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case TOGGLE_SIDE_BAR:
+			return {
+				...state,
+				open: action.payload,
+			}
+		default:
+			return state
+	}
+}
+
+export default sideBarReducer
