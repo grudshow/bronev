@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 import { privateRoutes } from '../../router/routes'
 import ToggleTheme from '../ToggleTheme/ToggleTheme'
-import Language from '../Language'
+// import Language from '../Language'
 import { useTranslation } from 'react-i18next'
 
 const Header = () => {
@@ -44,7 +44,7 @@ const Header = () => {
 							</Link>
 						))}
 				</Box>
-				<Language />
+				{/* <Language /> */}
 				<ToggleTheme />
 			</Toolbar>
 		</AppBar>

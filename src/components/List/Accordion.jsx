@@ -57,6 +57,7 @@ const Accordion = ({ item }) => {
 						.filter(elem => elem.titleAccordion === item.title)
 						.map(elem => (
 							<NavLink
+								key={elem.name}
 								style={({ isActive }) => (isActive ? { color: 'gray' } : { color: 'initial' })}
 								to={elem.path}
 							>
