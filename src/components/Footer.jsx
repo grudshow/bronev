@@ -1,16 +1,20 @@
-import { BottomNavigation, Paper, Typography } from '@mui/material'
-
+import { Paper, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 const Footer = () => {
+	const { t } = useTranslation()
 	return (
-		<Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, bgcolor: 'text.primary' }}>
-			<BottomNavigation
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-				}}
-			>
-				<Typography>© 2022 Bronew</Typography>
-			</BottomNavigation>
+		<Paper
+			sx={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				width: '100%',
+				minHeight: '60px',
+			}}
+		>
+			<Typography sx={{ color: 'text.primary', textTransform: 'capitalize' }} fontSize={24}>
+				© 2022 {t('title')}
+			</Typography>
 		</Paper>
 	)
 }

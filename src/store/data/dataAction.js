@@ -49,6 +49,7 @@ export const getData = (page, querySearch, path, site) => async dispatch => {
 		.then(res => res.data)
 	dispatch(setData(res['hydra:member']))
 	dispatch(setLoading(false))
+	
 	if (site) dispatch(setPageQty(Math.ceil(res['hydra:totalItems'] / 50)))
 	else dispatch(setPageQty(Math.ceil(res['hydra:totalItems'] / 30)))
 }

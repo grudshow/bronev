@@ -7,10 +7,15 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useDispatch } from 'react-redux'
 import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
+import { useTranslation } from 'react-i18next'
+
 const DrawerHeader = () => {
 	const theme = useTheme()
 
 	const dispatch = useDispatch()
+
+	const { t } = useTranslation()
+
 	const handleDrawerClose = () => {
 		dispatch(setToggleSideBar(false))
 	}
@@ -19,6 +24,7 @@ const DrawerHeader = () => {
 			<Link
 				to='/'
 				style={{
+					textDecoration: 'none',
 					display: 'flex',
 					alignItems: 'center',
 					width: '100%',
@@ -36,7 +42,7 @@ const DrawerHeader = () => {
 						fontWeight: 600,
 					}}
 				>
-					бронев
+					{t('title')}
 				</Typography>
 			</Link>
 

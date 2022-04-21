@@ -24,11 +24,11 @@ const LoginPage = () => {
 	useEffect(() => {
 		if (openModal) {
 			const intervalID = setInterval(() => {
-				if (address && address?.location?.href !== 'about:blank') {
+				if (address && address?.location?.href !== 'about:blank' && token !== null) {
 					const searchParams = new URLSearchParams(address.location.search)
 					setToken(searchParams.get('token'))
 					localStorage.setItem('token', searchParams.get('token'))
-					if (!username && !token) {
+					if (!username && token !== null) {
 						getApi()
 							.get('users/current')
 							.then(res => {

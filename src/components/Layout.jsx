@@ -5,13 +5,30 @@ import Footer from './Footer'
 import SideBar from './SideBar/SideBar'
 import { DrawerHeader } from './DrawerHeader/Drawer.styled'
 import BreadCrumbs from './BreadCrumbs'
+import { useSelector } from 'react-redux'
 
 const Layout = () => {
+	const open = useSelector(state => state.sideBarReducer.open)
+
 	return (
-		<Box sx={{ display: 'flex', paddingBottom: '60px' }}>
+		<Box
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100vh',
+			}}
+		>
 			<Header />
 			<SideBar />
-			<Box component='main' sx={{ flexGrow: 1, p: 2 }}>
+			<Box
+				component='main'
+				sx={{
+					flexGrow: 1,
+					p: 2,
+					marginLeft: 'auto',
+					width: open ? 'calc(100% - 240px)' : 'calc(100% - 65px)',
+				}}
+			>
 				<DrawerHeader />
 				<BreadCrumbs />
 				<Outlet />

@@ -47,7 +47,7 @@ const Content = ({ inputs, headCells, Row, initialState, path, site }) => {
 				<Box
 					sx={{
 						display: 'grid',
-						gridTemplateColumns: 'repeat(auto-fit,minmax(250px,1fr))',
+						gridTemplateColumns: 'repeat(auto-fit,minmax(100px,1fr))',
 						gap: '20px',
 						marginBottom: '20px',
 					}}
@@ -57,7 +57,12 @@ const Content = ({ inputs, headCells, Row, initialState, path, site }) => {
 				</Box>
 				<Buttons initialState={initialState} />
 			</Box>
-			<TableContainer component={Paper} sx={{ marginBottom: '20px' }}>
+			<TableContainer
+				component={Paper}
+				sx={{
+					marginBottom: '20px',
+				}}
+			>
 				<Table sx={{ minWidth: 650 }} aria-label='simple table'>
 					<TableHead>
 						<TableRow>

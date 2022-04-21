@@ -15,14 +15,12 @@ const ToggleTheme = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				color: 'text.primary',
+				color: 'text.white',
 				borderRadius: 1,
 				cursor: 'pointer',
 			}}
-			onClick={colorMode.toggleColorMode}
 		>
-			{theme.palette.mode} mode
-			<IconButton sx={{ ml: 1 }} color='inherit'>
+			<IconButton sx={{ ml: 1 }} color='inherit' onClick={colorMode.toggleColorMode}>
 				{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
 			</IconButton>
 		</Box>
