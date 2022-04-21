@@ -8,5 +8,5 @@ export interface authState {
 
 export interface setUserNameAction {
 	type: authType.SET_USER_NAME
-	payload?: null | string
+	payload: null | string
 }
