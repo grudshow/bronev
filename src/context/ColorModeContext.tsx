@@ -6,7 +6,7 @@ export const ColorModeContext = createContext({
 })
 
 export default function ColorModeContextProvider({ children }: any) {
-	const [mode, setMode] = useState<'light' | 'dark'>('light')
+	const [mode, setMode] = useState<'light' | 'dark'>('dark')
 	const colorMode = useMemo(
 		() => ({
 			toggleColorMode: () => {

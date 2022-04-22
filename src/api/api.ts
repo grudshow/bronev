@@ -13,7 +13,7 @@ export const getApi = (site = process.env.REACT_APP_API) => {
 	})
 
 	instance.interceptors.request.use(function (config) {
-		//@ts-ignore
+		// @ts-ignore
 		config.headers.Authorization = 'Bearer ' + token
 		return config
 	})
