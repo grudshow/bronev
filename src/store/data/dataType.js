@@ -1,6 +1,0 @@
-export const SET_DATA = 'SET_DATA'
-export const SET_LOADING = 'SET_LOADING'
-export const SET_PAGE_QTY = 'SET_PAGE_QTY'
-export const SET_PAGE = 'SET_PAGE'
-export const SET_QUERY_SEARCH = 'SET_QUERY_SEARCH'
-export const SET_SUBMIT = 'SET_SUBMIT'
