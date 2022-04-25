@@ -6,7 +6,7 @@ import { Navigate, Routes, Route, useLocation, useNavigate } from 'react-router-
 import Layout from './components/Layout'
 import { privateRoutes, publicRoutes } from './router/routes'
 import { useAppSelector } from './hooks/hooks'
-import { setUserName } from './store/auth/authAction'
+import { authType } from './store/auth/authType'
 
 const App: FC = () => {
 	const username = useAppSelector(state => state.authReducer.username)
@@ -18,8 +18,7 @@ const App: FC = () => {
 
 	useEffect(() => {
 		if (localStorage.getItem('username')) {
-			//@ts-ignore
-			dispatch(setUserName(localStorage.getItem('username')))
+			dispatch({ type: authType.SET_USER_NAME, payload: localStorage.getItem('username') })
 			return navigate('/')
 		}
 	}, [username])

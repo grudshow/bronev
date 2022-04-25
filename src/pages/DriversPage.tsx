@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import Content from '../components/Content'
 import {
 	Table,
@@ -14,9 +14,9 @@ import {
 } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import { IRow } from './pagesType'
+import { IRowDrivers } from '../types/pagesType'
 
-const DriversPage = () => {
+const DriversPage: FC = () => {
 	const initialState = {
 		firstname: '',
 		lastname: '',
@@ -68,7 +68,7 @@ const DriversPage = () => {
 	)
 }
 
-const Row = ({ row, headCells }: IRow) => {
+const Row = ({ row, headCells }: IRowDrivers) => {
 	const [openCard, setOpenCard] = useState(false)
 
 	return (

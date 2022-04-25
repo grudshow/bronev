@@ -9,8 +9,7 @@ function handleClick(event: { preventDefault: () => void }) {
 
 export default function BreadCrumbs() {
 	const location = useLocation()
-	//@ts-ignore
-	const breadcrumbs = privateRoutes.find(route => route.path === location.pathname).breadcrumbs
+	const breadcrumbs = privateRoutes.find(route => route.path === location.pathname)?.breadcrumbs
 
 	return (
 		<Box mb={2}>

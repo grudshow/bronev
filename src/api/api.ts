@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 export const getApi = (site = process.env.REACT_APP_API) => {
 	const token = localStorage.getItem('token')
@@ -12,8 +12,7 @@ export const getApi = (site = process.env.REACT_APP_API) => {
 		},
 	})
 
-	instance.interceptors.request.use(function (config) {
-		// @ts-ignore
+	instance.interceptors.request.use(function (config: any) {
 		config.headers.Authorization = 'Bearer ' + token
 		return config
 	})

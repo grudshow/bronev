@@ -3,12 +3,12 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { Link } from 'react-router-dom'
 import AppBar from './Header.styled'
 import { useDispatch } from 'react-redux'
-import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 import { privateRoutes } from '../../router/routes'
-import ToggleTheme from '../ToggleTheme/ToggleTheme'
+import ToggleTheme from '../ToggleTheme'
 import { useTranslation } from 'react-i18next'
 import { useAppSelector } from '../../hooks/hooks'
 import Language from '../Language'
+import { sideBarType } from '../../store/sideBar/sideBarType'
 
 const Header = () => {
 	const open = useAppSelector(state => state.sideBarReducer.open)
@@ -18,8 +18,7 @@ const Header = () => {
 	const { t } = useTranslation()
 
 	const handleDrawerOpen = () => {
-		//@ts-ignore
-		dispatch(setToggleSideBar(true))
+		dispatch({ type: sideBarType.TOGGLE_SIDE_BAR, payload: true })
 	}
 
 	return (

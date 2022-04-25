@@ -14,7 +14,7 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import Content from '../components/Content'
-import { IRow } from './pagesType'
+import { IRowPeople } from '../types/pagesType'
 
 const PeoplePage = () => {
 	const initialState = {
@@ -75,7 +75,7 @@ const PeoplePage = () => {
 	)
 }
 
-const Row = ({ row, headCells }: IRow) => {
+const Row = ({ row, headCells }: IRowPeople) => {
 	const [openCard, setOpenCard] = useState(false)
 	return (
 		<>

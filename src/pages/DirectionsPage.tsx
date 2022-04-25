@@ -15,7 +15,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import Content from '../components/Content'
-import { IRow } from './pagesType'
+import { IRowDirections } from '../types/pagesType'
 
 const DirectionsPage = () => {
 	const initialState = {
@@ -46,7 +46,7 @@ const DirectionsPage = () => {
 	)
 }
 
-function Row({ row, headCells }: IRow) {
+function Row({ row, headCells }: IRowDirections) {
 	const [openCard, setOpenCard] = useState(false)
 	return (
 		<>

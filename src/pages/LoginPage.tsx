@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { Box, Button, Typography } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import imgBg from '../assets/images/bgmain.jpg'
-import { setUserName } from '../store/auth/authAction'
 import { getApi } from '../api/api'
 import { useAppSelector } from '../hooks/hooks'
+import { authType } from '../store/auth/authType'
 
 const LoginPage = () => {
-	const [address, setAddress] = useState(null)
-	const [token, setToken] = useState('')
-	const [openModal, setOpenModal] = useState(false)
+	const [address, setAddress] = useState<Window | null>(null)
+	const [token, setToken] = useState<string | null>('')
+	const [openModal, setOpenModal] = useState<boolean>(false)
 
 	const username = useAppSelector(state => state.authReducer.username)
 
@@ -17,42 +17,36 @@ const LoginPage = () => {
 
 	const openModalWindow = () => {
 		setAddress(
-			// @ts-ignore
 			window.open(process.env.REACT_APP_API_LOGIN, 'auth', `width=500,height=600,left=50%,top=50%`),
 		)
 		setOpenModal(true)
 	}
 
 	useEffect(() => {
-		if (openModal) {
-			const intervalID = setInterval(() => {
-				// @ts-ignore
-				if (address && address?.location?.href !== 'about:blank' && token !== null) {
-					// @ts-ignore
-					const searchParams = new URLSearchParams(address.location.search)
-					// @ts-ignore
-					setToken(searchParams.get('token'))
-					// @ts-ignore
-					localStorage.setItem('token', searchParams.get('token'))
-					if (!username && token !== null) {
-						getApi()
-							.get('users/current')
-							.then(res => {
-								localStorage.setItem('username', res.data.username)
-								// @ts-ignore
-								dispatch(setUserName(localStorage.getItem('username')))
+		const intervalID = setInterval(() => {
+			if (address && address?.location?.href !== 'about:blank' && token !== null) {
+				const searchParams: any = new URLSearchParams(address?.location?.search)
+				setToken(searchParams.get('token'))
+				localStorage.setItem('token', searchParams.get('token'))
+				if (!username && token !== null) {
+					getApi()
+						.get('users/current')
+						.then(res => {
+							localStorage.setItem('username', res.data.username)
+							dispatch({
+								type: authType.SET_USER_NAME,
+								payload: localStorage.getItem('username'),
 							})
-					}
-					// @ts-ignore
-					address.close()
+						})
 				}
-			}, 500)
-
-			return () => {
-				clearInterval(intervalID)
+				address.close()
 			}
+		}, 500)
+
+		return () => {
+			clearInterval(intervalID)
 		}
-	})
+	}, [openModal])
 
 	return (
 		<Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>

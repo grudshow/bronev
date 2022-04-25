@@ -7,21 +7,10 @@ import {
 	TableRow,
 	Paper,
 } from '@mui/material'
+import { FC } from 'react'
+import { ITable } from '../types/tableType'
 
-export interface IHeadCells {
-	value?: string
-	label: string
-}
-
-interface ITable {
-	headCells: IHeadCells[]
-	data: []
-	Row: any
-}
-
-const Table = ({ headCells, data, Row }: ITable) => {
-
-
+const Table: FC<ITable> = ({ headCells, data, Row }) => {
 	return (
 		<TableContainer component={Paper} sx={{ marginBottom: '20px' }}>
 			<MyTable sx={{ minWidth: 650 }} aria-label='simple table'>

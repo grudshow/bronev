@@ -5,6 +5,7 @@ export enum dataType {
 	SET_PAGE = 'SET_PAGE',
 	SET_QUERY_SEARCH = 'SET_QUERY_SEARCH',
 	SET_SUBMIT = 'SET_SUBMIT',
+	GET_DATA = 'GET_DATA',
 }
 
 export interface dataState {
@@ -13,7 +14,12 @@ export interface dataState {
 	loading: boolean
 	pageQty: number
 	submit: boolean
-	querySearch: object
+	querySearch: []
+}
+
+interface setQuerySearchAction {
+	type: dataType.SET_QUERY_SEARCH
+	payload: []
 }
 
 interface setDataAction {
@@ -36,9 +42,10 @@ interface setSubmitAction {
 	type: dataType.SET_SUBMIT
 	payload: boolean
 }
-interface setQuerySearchAction {
-	type: dataType.SET_QUERY_SEARCH
-	payload: object
+
+interface getDataAction {
+	type: dataType.GET_DATA
+	payload: any
 }
 
 export type dataTypeAction =
@@ -48,3 +55,4 @@ export type dataTypeAction =
 	| setPageQtyAction
 	| setSubmitAction
 	| setQuerySearchAction
+	| getDataAction

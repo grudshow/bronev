@@ -1,21 +1,24 @@
 import { Box, Button } from '@mui/material'
+import { FC } from 'react'
 import { useDispatch } from 'react-redux'
-import { useAppSelector } from '../../hooks/hooks'
-import { setPage, setSubmit, setQuerySearch } from '../../store/data/dataAction'
+import { useAppSelector } from '../hooks/hooks'
+import { dataType } from '../store/data/dataType'
 
-const Buttons = ({ initialState }: any) => {
+interface IButtons {
+	initialState: []
+}
+
+const Buttons: FC<IButtons> = initialState => {
 	const dispatch = useDispatch()
 	const submit = useAppSelector(state => state.dataReducer.submit)
 
 	const handleSubmit = () => {
-		// @ts-ignore
-		dispatch(setSubmit(!submit))
-		// @ts-ignore
-		dispatch(setPage(1))
+		dispatch({ type: dataType.SET_SUBMIT, payload: !submit })
+		dispatch({ type: dataType.SET_PAGE, payload: 1 })
 	}
 
 	const handleReset = () => {
-		dispatch(setQuerySearch(initialState))
+		dispatch({ type: dataType.SET_QUERY_SEARCH, payload: initialState })
 		handleSubmit()
 	}
 

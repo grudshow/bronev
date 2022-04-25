@@ -6,7 +6,7 @@ const initialState: dataState = {
 	loading: true,
 	pageQty: 0,
 	submit: false,
-	querySearch: {},
+	querySearch: [],
 }
 
 const dataReducer = (state = initialState, action: dataTypeAction) => {

@@ -1,18 +1,20 @@
-import { useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { getData, setQuerySearch } from '../store/data/dataAction'
+import { getData } from '../store/data/dataAction'
 import Pagination from './Pagination'
-import Input from './Input/Input'
-import Select from './Select/Select'
-import Buttons from './Buttons/Buttons'
+import Input from './Input'
+import Select from './Select'
+import Buttons from './Buttons'
 import Loading from './Loading'
 import { Box } from '@mui/material'
 import { useAppSelector } from '../hooks/hooks'
-import { IPagesProps } from '../pages/pagesType'
-import Table from './Table/Table'
+import { IPagesProps } from '../types/pagesType'
+import Table from './Table'
+import { dataType } from '../store/data/dataType'
 
-const Content = ({ inputs, headCells, Row, initialState, path, site }: IPagesProps) => {
+const Content: FC<IPagesProps> = ({ inputs, headCells, Row, initialState, path, site }) => {
 	const dispatch = useDispatch()
+	console.log('initialState', initialState)
 
 	const querySearch = useAppSelector(state => state.dataReducer.querySearch)
 	const page = useAppSelector(state => state.dataReducer.page)
@@ -20,22 +22,13 @@ const Content = ({ inputs, headCells, Row, initialState, path, site }: IPagesPro
 	const data = useAppSelector(state => state.dataReducer.data)
 	const pageQty = useAppSelector(state => state.dataReducer.pageQty)
 
-	// @ts-ignore
-	const handleSearch = e => {
-		// @ts-ignore
-		const name = e.target.name
-		// @ts-ignore
-		dispatch(setQuerySearch({ ...querySearch, [name]: e.target.value }))
-	}
-
 	useEffect(() => {
-		// @ts-ignore
 		dispatch(getData(page, querySearch, path, site))
 	}, [page, submit])
 
 	useEffect(() => {
-		// @ts-ignore
-		dispatch(setQuerySearch(initialState))
+		dispatch({ type: dataType.SET_QUERY_SEARCH, payload: initialState })
+		console.log(querySearch)
 	}, [])
 
 	return !data ? (
@@ -51,8 +44,10 @@ const Content = ({ inputs, headCells, Row, initialState, path, site }: IPagesPro
 						marginBottom: '20px',
 					}}
 				>
-					<Input inputs={inputs} handleSearch={handleSearch} />
-					{'show_all' in querySearch && <Select handleSearch={handleSearch} />}
+					{inputs.map(input => (
+						<Input key={input.name} {...input} />
+					))}
+					{'show_all' in querySearch && <Select />}
 				</Box>
 				<Buttons initialState={initialState} />
 			</Box>

@@ -1,4 +1,3 @@
-import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 import { useDispatch } from 'react-redux'
 import { privateRoutes } from '../../router/routes'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -12,10 +11,13 @@ import {
 	AccordionDetails,
 	Typography,
 } from '@mui/material'
-import { useTheme } from '@emotion/react'
+import { useTheme } from '@mui/material/styles'
 import { useAppSelector } from '../../hooks/hooks'
+import { sideBarType } from '../../store/sideBar/sideBarType'
+import { FC } from 'react'
+import { IAccordion } from '../../types/accordionType'
 
-const Accordion = ({ item }: any) => {
+const Accordion: FC<IAccordion> = ({ title, img }) => {
 	const theme = useTheme()
 
 	const open = useAppSelector(state => state.sideBarReducer.open)
@@ -29,9 +31,12 @@ const Accordion = ({ item }: any) => {
 				id='panel1a-header'
 			>
 				<ListItemButton
-					key={item.title}
-					// @ts-ignore
-					onClick={() => (theme.direction !== 'rtl' ? dispatch(setToggleSideBar(true)) : '')}
+					key={title}
+					onClick={() => {
+						return theme.direction !== 'rtl'
+							? dispatch({ type: sideBarType.TOGGLE_SIDE_BAR, payload: true })
+							: ''
+					}}
 					sx={{
 						minHeight: 48,
 						justifyContent: open ? 'initial' : 'center',
@@ -45,10 +50,10 @@ const Accordion = ({ item }: any) => {
 							justifyContent: 'center',
 						}}
 					>
-						{item.img}
+						{img}
 					</ListItemIcon>
 					<ListItemText
-						primary={item.title}
+						primary={title}
 						sx={{ opacity: open ? 1 : 0, display: open ? 'block' : 'none' }}
 					/>
 				</ListItemButton>
@@ -56,7 +61,7 @@ const Accordion = ({ item }: any) => {
 			{open && (
 				<AccordionDetails>
 					{privateRoutes
-						.filter(elem => elem.titleAccordion === item.title)
+						.filter(elem => elem.titleAccordion === title)
 						.map(elem => (
 							<NavLink
 								key={elem.name}

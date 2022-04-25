@@ -6,7 +6,7 @@ import { store } from './store/store'
 import ColorModeContextProvider from './context/ColorModeContext'
 import Loading from './components/Loading'
 import { Suspense } from 'react'
-// import i18n from './utils/i18n'
+import './utils/i18n/i18n'
 
 ReactDOM.render(
 	<BrowserRouter>

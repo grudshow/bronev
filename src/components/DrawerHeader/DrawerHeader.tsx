@@ -5,9 +5,9 @@ import { DrawerHeader as MyDrawerHeader } from './Drawer.styled'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useTranslation } from 'react-i18next'
-import { setToggleSideBar } from '../../store/sideBar/sideBarAction'
 import { useDispatch } from 'react-redux'
 import logo from '../../assets/images/logo.png'
+import { sideBarType } from '../../store/sideBar/sideBarType'
 
 const DrawerHeader = () => {
 	const theme = useTheme()
@@ -17,8 +17,7 @@ const DrawerHeader = () => {
 	const { t } = useTranslation()
 
 	const handleDrawerClose = () => {
-		// @ts-ignore
-		dispatch(setToggleSideBar(false))
+		dispatch({ type: sideBarType.TOGGLE_SIDE_BAR, payload: false })
 	}
 
 	return (
