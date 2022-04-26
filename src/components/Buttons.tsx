@@ -1,14 +1,14 @@
-import { Box, Button } from '@mui/material'
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
+import { Box, Button } from '@mui/material'
 import { useAppSelector } from '../hooks/hooks'
-import { dataType } from '../store/data/dataType'
+import { dataType, IQuerySearch } from '../store/data/dataType'
 
-interface IButtons {
-	initialState: []
+interface IButtonsProps {
+	initialState: IQuerySearch
 }
 
-const Buttons: FC<IButtons> = initialState => {
+const Buttons: FC<IButtonsProps> = ({ initialState }) => {
 	const dispatch = useDispatch()
 	const submit = useAppSelector(state => state.dataReducer.submit)
 

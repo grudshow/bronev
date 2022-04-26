@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { CssBaseline } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Navigate, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
@@ -25,7 +24,6 @@ const App: FC = () => {
 
 	return (
 		<>
-			<CssBaseline />
 			{!username ? (
 				<Routes>
 					{publicRoutes.map(route => (

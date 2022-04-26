@@ -2,10 +2,11 @@ import { TextField } from '@mui/material'
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../hooks/hooks'
-import { dataType } from '../store/data/dataType'
+import { dataType, IQuerySearch } from '../store/data/dataType'
+import { IInput } from '../types/pagesType'
 
-const Input: FC = ({ ...props }, name) => {
-	const querySearch: any = useAppSelector(state => state.dataReducer.querySearch)
+const Input: FC<IInput> = ({ ...props }, name) => {
+	const querySearch = useAppSelector<IQuerySearch>(state => state.dataReducer.querySearch)
 	const dispatch = useDispatch()
 
 	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {

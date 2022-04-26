@@ -8,10 +8,12 @@ import {
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../hooks/hooks'
-import { dataType } from '../store/data/dataType'
+import { dataType, IQuerySearch } from '../store/data/dataType'
 
-const Select: FC = () => {
-	const querySearch: any = useAppSelector(state => state.dataReducer.querySearch)
+const Select: FC<IQuerySearch> = () => {
+	const querySearch = useAppSelector(state => state.dataReducer.querySearch)
+
+	const showAll: string = querySearch['show_all'] ? querySearch['show_all'] : ''
 
 	const dispatch = useDispatch()
 
@@ -28,10 +30,9 @@ const Select: FC = () => {
 			<InputLabel id='demo-simple-select-label'>Активные</InputLabel>
 			<MySelect
 				onChange={handleSelect}
-				value={querySearch['show_all']}
-				labelId='demo-simple-select-label'
+				value={showAll}
 				id='demo-simple-select'
-				label='Sort'
+				labelId='demo-simple-select-label'
 				name='show_all'
 			>
 				<MenuItem value='null'>Активные</MenuItem>

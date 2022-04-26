@@ -8,18 +8,22 @@ export enum dataType {
 	GET_DATA = 'GET_DATA',
 }
 
+export interface IQuerySearch {
+	[key: string]: string | null
+}
+
 export interface dataState {
 	page: number
 	data: null | []
 	loading: boolean
 	pageQty: number
 	submit: boolean
-	querySearch: []
+	querySearch: IQuerySearch
 }
 
 interface setQuerySearchAction {
 	type: dataType.SET_QUERY_SEARCH
-	payload: []
+	payload: IQuerySearch
 }
 
 interface setDataAction {
@@ -43,11 +47,6 @@ interface setSubmitAction {
 	payload: boolean
 }
 
-interface getDataAction {
-	type: dataType.GET_DATA
-	payload: any
-}
-
 export type dataTypeAction =
 	| setDataAction
 	| setLoadingAction
@@ -55,4 +54,3 @@ export type dataTypeAction =
 	| setPageQtyAction
 	| setSubmitAction
 	| setQuerySearchAction
-	| getDataAction

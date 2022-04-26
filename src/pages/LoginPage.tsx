@@ -10,7 +10,6 @@ const LoginPage = () => {
 	const [address, setAddress] = useState<Window | null>(null)
 	const [token, setToken] = useState<string | null>('')
 	const [openModal, setOpenModal] = useState<boolean>(false)
-
 	const username = useAppSelector(state => state.authReducer.username)
 
 	const dispatch = useDispatch()

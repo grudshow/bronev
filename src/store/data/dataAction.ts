@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
 import { getApi } from '../../api/api'
 import { onlyNotEmpty } from '../../utils/onlyNotEmpty'
-import { dataType, dataTypeAction } from './dataType'
+import { dataType, dataTypeAction, IQuerySearch } from './dataType'
 
 export const setData = (payload: dataTypeAction) => ({
 	type: dataType.SET_DATA,
@@ -34,7 +34,7 @@ export const setQuerySearch = (payload: dataTypeAction) => ({
 })
 
 export const getData =
-	(page: number, querySearch: string[], path: string, site?: string) =>
+	(page: number, querySearch: IQuerySearch, path: string, site?: string) =>
 	async (dispatch: Dispatch<dataTypeAction>) => {
 		const res = await getApi(site)
 			.get(path, {

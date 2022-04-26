@@ -12,8 +12,8 @@ export const getApi = (site = process.env.REACT_APP_API) => {
 		},
 	})
 
-	instance.interceptors.request.use(function (config: any) {
-		config.headers.Authorization = 'Bearer ' + token
+	instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+		config.headers!.Authorization = 'Bearer ' + token
 		return config
 	})
 

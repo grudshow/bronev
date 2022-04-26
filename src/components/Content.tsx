@@ -12,9 +12,8 @@ import { IPagesProps } from '../types/pagesType'
 import Table from './Table'
 import { dataType } from '../store/data/dataType'
 
-const Content: FC<IPagesProps> = ({ inputs, headCells, Row, initialState, path, site }) => {
+const Content: FC<IPagesProps> = ({ inputs, headCells, initialState, path, site }) => {
 	const dispatch = useDispatch()
-	console.log('initialState', initialState)
 
 	const querySearch = useAppSelector(state => state.dataReducer.querySearch)
 	const page = useAppSelector(state => state.dataReducer.page)
@@ -28,7 +27,6 @@ const Content: FC<IPagesProps> = ({ inputs, headCells, Row, initialState, path, 
 
 	useEffect(() => {
 		dispatch({ type: dataType.SET_QUERY_SEARCH, payload: initialState })
-		console.log(querySearch)
 	}, [])
 
 	return !data ? (
@@ -51,7 +49,7 @@ const Content: FC<IPagesProps> = ({ inputs, headCells, Row, initialState, path, 
 				</Box>
 				<Buttons initialState={initialState} />
 			</Box>
-			<Table headCells={headCells} Row={Row} data={data} />
+			<Table headCells={headCells} data={data} />
 			{pageQty !== 1 && <Pagination />}
 		</>
 	)

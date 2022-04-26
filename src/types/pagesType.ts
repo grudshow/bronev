@@ -1,3 +1,5 @@
+import { IQuerySearch } from './../store/data/dataType'
+
 export interface IHeadCells {
 	value?: string
 	label: string
@@ -70,8 +72,8 @@ export interface IInput {
 export interface IPagesProps {
 	inputs: IInput[]
 	headCells: IHeadCells[]
-	Row: React.ReactChild | React.ReactNode
-	initialState: any
+	Row?: React.ReactChild | React.ReactNode
+	initialState: IQuerySearch
 	path: string
 	site?: string
 }

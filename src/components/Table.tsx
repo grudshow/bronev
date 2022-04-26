@@ -9,14 +9,15 @@ import {
 } from '@mui/material'
 import { FC } from 'react'
 import { ITable } from '../types/tableType'
+import Row from './Row'
 
-const Table: FC<ITable> = ({ headCells, data, Row }) => {
+const Table: FC<any> = ({ headCells, data }) => {
 	return (
 		<TableContainer component={Paper} sx={{ marginBottom: '20px' }}>
 			<MyTable sx={{ minWidth: 650 }} aria-label='simple table'>
 				<TableHead>
 					<TableRow>
-						{headCells.map(headCell => (
+						{headCells.map((headCell: any) => (
 							<TableCell key={headCell.label} align='left'>
 								{headCell.label}
 							</TableCell>
@@ -27,7 +28,7 @@ const Table: FC<ITable> = ({ headCells, data, Row }) => {
 
 				<TableBody>
 					{data.length ? (
-						data.map((row, idx) => <Row key={idx} headCells={headCells} row={row} />)
+						data.map((row: any, idx: any) => <Row key={idx} headCells={headCells} row={row} />)
 					) : (
 						<div
 							style={{
