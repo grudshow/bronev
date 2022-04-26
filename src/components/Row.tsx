@@ -14,17 +14,17 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { Location, useLocation } from 'react-router-dom'
+import { IRow } from '../types/pagesType'
 
-const Row: FC<any> = ({ headCells, row }) => {
-	console.log('row', row)
+const Row: FC<IRow> = ({ headCells, row }) => {
+	const { pathname }: Location = useLocation()
+
 	const [openCard, setOpenCard] = useState<boolean>(false)
 	const [collapseHead, setCollapseHead] = useState<string | null>(null)
 
-	const { pathname }: Location = useLocation()
-	console.log(typeof pathname)
+	const rowValues: string[] = []
 
-	const mass: string[] = []
-	headCells.filter((item: { value: string }) => mass.push(item.value))
+	headCells.filter(item => rowValues.push(item.value))
 
 	useEffect(() => {
 		switch (pathname) {
@@ -48,7 +48,7 @@ const Row: FC<any> = ({ headCells, row }) => {
 	return (
 		<>
 			<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-				{mass.map((el: any) => (
+				{rowValues.map((el: any) => (
 					<TableCell key={el}>{row[el]}</TableCell>
 				))}
 				<TableCell>
@@ -73,7 +73,7 @@ const Row: FC<any> = ({ headCells, row }) => {
 									))}
 								</Grid>
 								<Grid item xs={6}>
-									{mass.map((el: any) => (
+									{rowValues.map((el: any) => (
 										<Box key={el} sx={{ padding: '5px' }}>
 											{row[el]}
 										</Box>

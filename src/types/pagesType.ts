@@ -1,7 +1,7 @@
 import { IQuerySearch } from './../store/data/dataType'
 
 export interface IHeadCells {
-	value?: string
+	value: string
 	label: string
 }
 
@@ -53,6 +53,15 @@ export interface IRowDrivers {
 export interface IRowDirections {
 	headCells: IHeadCells[]
 	row: IRowDirectionsItem
+}
+
+interface IRowItems {
+	[key: string]: any
+}
+
+export interface IRow {
+	headCells: IHeadCells[]
+	row: IRowItems
 }
 
 export interface IRowCities {

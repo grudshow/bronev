@@ -11,13 +11,13 @@ import { FC } from 'react'
 import { ITable } from '../types/tableType'
 import Row from './Row'
 
-const Table: FC<any> = ({ headCells, data }) => {
+const Table: FC<ITable> = ({ headCells, data }) => {
 	return (
 		<TableContainer component={Paper} sx={{ marginBottom: '20px' }}>
 			<MyTable sx={{ minWidth: 650 }} aria-label='simple table'>
 				<TableHead>
 					<TableRow>
-						{headCells.map((headCell: any) => (
+						{headCells.map(headCell => (
 							<TableCell key={headCell.label} align='left'>
 								{headCell.label}
 							</TableCell>

@@ -105,7 +105,7 @@ const DriversPage: FC = () => {
 // 					<Table size='medium'>
 // 						<TableHead>
 // 							<TableCell align='center'>
-// 								namePage === 'driverPage' && {row.firstname} {row.lastname}
+// 								 {row.firstname} {row.lastname}
 // 							</TableCell>
 // 						</TableHead>
 // 						<TableBody>
