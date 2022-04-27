@@ -56,7 +56,7 @@ export interface IRowDirections {
 }
 
 interface IRowItems {
-	[key: string]: any
+	[key: string]: any | undefined
 }
 
 export interface IRow {

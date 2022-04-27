@@ -8,16 +8,20 @@ import Loading from './components/Loading'
 import { Suspense } from 'react'
 import './utils/i18n/i18n'
 import { CssBaseline } from '@mui/material'
+import { ThemeProvider } from '@mui/material/styles'
+import theme from './theme/theme'
 
 ReactDOM.render(
 	<BrowserRouter>
 		<Provider store={store}>
-			<ColorModeContextProvider>
+			{/* <ColorModeContextProvider> */}
+			<ThemeProvider theme={theme}>
 				<Suspense fallback={<Loading />}>
 					<CssBaseline />
 					<App />
 				</Suspense>
-			</ColorModeContextProvider>
+			</ThemeProvider>
+			{/* </ColorModeContextProvider> */}
 		</Provider>
 	</BrowserRouter>,
 	document.getElementById('root'),
