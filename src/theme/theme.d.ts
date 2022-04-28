@@ -1,11 +1,14 @@
 import { PaletteColor } from '@mui/material'
 
 declare module '@mui/material/styles' {
-	export interface Theme {
+	interface CustomTheme {}
+
+	interface Theme extends CustomTheme {
 		status: {
 			danger: React.CSSProperties['color']
 		}
 	}
+	interface ThemeOptions extends CustomTheme {}
 
 	interface Palette {
 		neutral: Palette['primary']

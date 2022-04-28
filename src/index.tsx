@@ -10,17 +10,20 @@ import './utils/i18n/i18n'
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './theme/theme'
+import { StyledEngineProvider } from '@mui/styled-engine-sc'
 
 ReactDOM.render(
 	<BrowserRouter>
 		<Provider store={store}>
 			{/* <ColorModeContextProvider> */}
-			<ThemeProvider theme={theme}>
-				<Suspense fallback={<Loading />}>
-					<CssBaseline />
-					<App />
-				</Suspense>
-			</ThemeProvider>
+			<StyledEngineProvider injectFirst>
+				<ThemeProvider theme={theme}>
+					<Suspense fallback={<Loading />}>
+						<CssBaseline />
+						<App />
+					</Suspense>
+				</ThemeProvider>
+			</StyledEngineProvider>
 			{/* </ColorModeContextProvider> */}
 		</Provider>
 	</BrowserRouter>,
